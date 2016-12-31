@@ -1,3 +1,19 @@
+/*
+ * Copyright (c) 2016 Richard C.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.eng.arab.translator.androidtranslator.translate;
 
 import android.content.Context;
@@ -230,10 +246,10 @@ public class TranslatorClass {
         boolean bool = false;
         try {
             int nums = Integer.parseInt(text);
-            Log.i("", nums + " is a number");
+            //Log.i("", nums + " is a number");
             bool = true;
         } catch (NumberFormatException e) {
-            Log.i("", text + " is not a number");
+            //Log.i("", text + " is not a number");
             bool = false;
         }
         return bool;
@@ -299,9 +315,9 @@ public class TranslatorClass {
             sourceAStr = sourceAStr.toString().split(regex); // Reformat again the value and now with space
         }*/
 
-        Log.d("SPLIT", fileArrayToString(sourceAStr));
+        //Log.d("SPLIT", fileArrayToString(sourceAStr));
         String[] newList = getArrayOfArrabic(sourceAStr);
-        Log.d("ARAB", fileArrayToString(newList));
+        //Log.d("ARAB", fileArrayToString(newList));
 
         //int inv = sourceAStr.length - 1;
         for (int i = 0; i < sourceAStr.length; i++/*, inv--*/)
@@ -354,7 +370,7 @@ public class TranslatorClass {
             }
             newAString.append(" ");
         }
-        Log.d("DBARAB",fileArrayToString(newAString.toString().split(" ")));
+        //Log.d("DBARAB",fileArrayToString(newAString.toString().split(" ")));
 
         db.close();
 
@@ -381,7 +397,7 @@ public class TranslatorClass {
                 newAString[i] = db.getTranslationToArabic(strList[i-_continueWithSpaces]).getEnglish();
                 //newAString[i - _continueWithSpaces] = "-";
                 flag_inverse = 1;
-                Log.i("counter", _continueWithSpaces+"");
+                //Log.i("counter", _continueWithSpaces+"");
             } else {
                 if (flag_inverse == 0) { // NOT WORKING YET
                     if (tm.getEnglish() == null) {// Should not execute getTRansation... here only once is enough
@@ -396,7 +412,7 @@ public class TranslatorClass {
                 flag_inverse = 0;
             }
         }
-        Log.d("DBARAB", fileArrayToString(newAString.toString().split(" ")));
+        //Log.d("DBARAB", fileArrayToString(newAString.toString().split(" ")));
 
         db.close();
 

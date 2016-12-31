@@ -1,3 +1,19 @@
+/*
+ * Copyright (c) 2016 Richard C.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.eng.arab.translator.androidtranslator.translate;
 
 import android.content.ClipDescription;
@@ -31,7 +47,6 @@ import android.widget.Toast;
 
 import com.eng.arab.translator.androidtranslator.R;
 import com.eng.arab.translator.androidtranslator.activity.Speaker;
-
 
 public class TranslateViewActivity extends AppCompatActivity implements OnClickListener
 {
@@ -236,8 +251,6 @@ public class TranslateViewActivity extends AppCompatActivity implements OnClickL
         }
         storeValueSP();
     }
-
-
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
@@ -265,6 +278,17 @@ public class TranslateViewActivity extends AppCompatActivity implements OnClickL
     @Override
     protected void onPause() { super.onPause(); }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        _speaker.stop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        _speaker.destroy();
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action buttons
@@ -341,7 +365,7 @@ public class TranslateViewActivity extends AppCompatActivity implements OnClickL
     * For Speech to Text Result
     * */
     private void checkTTS() {
-        if (_speaker == null)
+        //if (_speaker == null)
             _speaker = new Speaker(this);
         System.out.println("I'm in checkTTS");
         Intent check = new Intent();

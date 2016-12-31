@@ -1,3 +1,19 @@
+/*
+ * Copyright (c) 2016 Richard C.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.eng.arab.translator.androidtranslator;
 
 import android.content.Context;
@@ -64,7 +80,7 @@ public class ShowDetailsMonth extends AppCompatActivity implements OnClickListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_show_details);
+        setContentView(R.layout.activity_show_month);
 
         // Get the Intent Extras
         Intent extras = getIntent();
@@ -86,7 +102,7 @@ public class ShowDetailsMonth extends AppCompatActivity implements OnClickListen
 
         srcCard = (CardView)findViewById(R.id.src_card_details);
         srcToolbar = (Toolbar)findViewById(R.id.src_toolbar_details);
-        srcToolbar.inflateMenu(R.menu.src_card_details);
+        srcToolbar.inflateMenu(R.menu.src_card_months);
         srcToolbar.setOnMenuItemClickListener(
                 new Toolbar.OnMenuItemClickListener() {
                     @Override
