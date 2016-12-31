@@ -8,3 +8,5 @@
 /build
 /captures
 CHANGES.txt
+libs/
+src/main/res/mipmap-hdpi/
