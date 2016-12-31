@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2014 Mikel Artetxe <artetxem@gmail.com>
+  ~
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more dictionary.
+  ~
+  ~ You should have received a copy of the GNU General Public License along
+  ~ with this program; if not, write to the Free Software Foundation, Inc.,
+  ~ 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_translator"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:background="#d9d9d9"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/toolbar_actionbar_dictionary"
+        layout="@layout/toolbar_actionbar" />
+
+    <!-- Dummy element to be able to clear focus from the source text and solve the SurfaceView
+    blinking problem (see https://stackoverflow.com/questions/8772862/surfaceview-flashes-black-on-load) -->
+    <SurfaceView
+        android:layout_width="0px"
+        android:layout_height="0px"
+        android:focusable="true"
+        android:focusableInTouchMode="true" />
+
+    <LinearLayout
+        android:id="@+id/activity_translators_dictionary"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="@dimen/card_margin">
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/src_card_dictionary"
+            style="@style/card"
+            card_view:cardBackgroundColor="@color/card_background"
+            card_view:cardCornerRadius="0dp"
+            card_view:cardElevation="4dp"
+            card_view:cardPreventCornerOverlap="false"
+            card_view:cardUseCompatPadding="true">
+
+            <LinearLayout
+                style="@style/card_inner_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <include
+                    android:id="@+id/src_toolbar_dictionary"
+                    layout="@layout/toolbar_card" />
+
+                <View style="@style/card_horizontal_separator" />
+
+                <LinearLayout
+                    android:id="@+id/src_content_dictionary_scroll"
+                    style="@style/card_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="30dp"
+                    android:scrollbars="vertical"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:id="@+id/textViewKorean_dictionary"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp"
+                        android:text="ArabText"
+                        android:textColor="@color/primary_black_dark"
+                        android:textColorLink="@color/primary_black_dark"
+                        android:textSize="30sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:id="@+id/src_content_dictionary_sound_and_pronunciation"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.05">
+
+
+                        <ImageButton
+                            android:id="@+id/buttonSpeakKorean_dictionary"
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
+                            android:adjustViewBounds="true"
+                            android:background="?selectableItemBackgroundBorderless"
+                            android:clickable="true"
+                            android:padding="0dp"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/ic_action_src_audio" />
+
+
+                        <TextView
+                            android:id="@+id/textViewPronunciation_dictionary"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="10dp"
+                            android:text="\TextView\" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/textViewWordType_dictionary"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/activity_horizontal_margin"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                        android:text="TextView"
+                        android:textStyle="italic" />
+
+
+                    <LinearLayout
+                        android:id="@+id/src_content_dictionary_definitions"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/primary"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp">
+
+                        <TextView
+                            android:id="@+id/textViewDefinitions_dictionary"
+                            style="@style/card_text"
+                            android:text=": dictionary"
+                            android:textColor="@color/primary_black_dark"
+                            android:textColorLink="@color/primary_black_dark"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/textView7_dictionary"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="16dp"
+                        android:text="In English"
+                        android:textColor="@android:color/holo_orange_light"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/textViewEnglish_dictionary"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:text=": English"
+                        android:textColor="@color/primary_black_dark"
+                        android:textColorLink="@color/cardview_dark_background"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <View style="@style/card_horizontal_separator" />
+
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+
+    </LinearLayout>
+
+</LinearLayout>

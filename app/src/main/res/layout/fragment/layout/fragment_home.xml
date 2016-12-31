@@ -1,0 +1,234 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/translate_layout"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_mosque"
+    android:orientation="vertical"
+    android:padding="0dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="250dp"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/ic_mse"
+            android:contentDescription="@string/title"
+            android:layout_height="212dp"
+            android:paddingTop="50dp"
+            android:paddingBottom="50dp" />
+    </LinearLayout>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cv_translate"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="0dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp">
+
+        <LinearLayout
+            android:id="@+id/mainLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/cv_translator"
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:padding="5dp">
+
+                <ImageView
+                    android:id="@+id/person_photo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
+                    android:src="@drawable/ic_translate" />
+
+                <TextView
+                    android:id="@+id/person_title"
+                    android:layout_width="115dp"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="Translate"
+                    android:textSize="@dimen/TextMenu" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:srcCompat="@drawable/ic_expander_right"
+                    android:contentDescription="@string/title"/>
+
+                <!--<TextView
+                    android:id="@+id/person_details"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/person_title"
+                    android:layout_toRightOf="@+id/person_photo" />-->
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/card_separator" />
+
+            <LinearLayout
+                android:id="@+id/cv_dictionary"
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:padding="5dp">
+
+                <ImageView
+                    android:id="@+id/person_photo1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
+                    android:src="@drawable/ic_dictionary"
+                    android:contentDescription="@string/dictionary"/>
+
+                <TextView
+                    android:id="@+id/person_title1"
+                    android:layout_width="115dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="Dictionary"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/TextMenu" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:srcCompat="@drawable/ic_expander_right" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/card_separator" />
+
+            <LinearLayout
+                android:id="@+id/cv_alphabet"
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:padding="5dp">
+
+                <ImageView
+                    android:id="@+id/person_photo2"
+                    android:layout_width="35dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
+                    android:src="@drawable/ic_alphabet_black"
+                    android:contentDescription="@string/alphabet" />
+
+                <TextView
+                    android:id="@+id/person_title2"
+                    android:layout_width="115dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left|center"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="Alphabets"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/TextMenu" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:srcCompat="@drawable/ic_expander_right" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/card_separator" />
+
+            <LinearLayout
+                android:id="@+id/cv_about_us"
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:padding="5dp"
+                android:weightSum="1">
+
+                <ImageView
+                    android:id="@+id/person_photo3"
+                    android:layout_width="35dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="3dp"
+                    android:layout_marginStart="5dp"
+                    android:src="@drawable/ic_about"
+                    android:contentDescription="@string/about_us"/>
+
+
+                <TextView
+                    android:id="@+id/person_title3"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.67"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="@string/about"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/TextMenu"
+                    android:layout_gravity="left|center"
+                    android:layout_width="125dp" />
+
+                <ImageView
+                    android:id="@+id/imageView13"
+                    android:layout_width="47dp"
+                    android:layout_height="match_parent"
+                    app:srcCompat="@drawable/ic_expander_right"
+                    android:contentDescription="@string/about_us"/>
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/textViewDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="13dp"
+            android:text="@string/_169_2016_msa_e_translator_all_rights_reserved"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textColor="@color/card_separator"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textViewVersion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/textViewDescription"
+            android:layout_centerHorizontal="true"
+            android:text="V"
+            android:textColor="@color/light_gray" />
+    </RelativeLayout>
+</LinearLayout>

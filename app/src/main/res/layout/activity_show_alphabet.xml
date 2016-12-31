@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2014 Mikel Artetxe <artetxem@gmail.com>
+  ~
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more alphabet.
+  ~
+  ~ You should have received a copy of the GNU General Public License along
+  ~ with this program; if not, write to the Free Software Foundation, Inc.,
+  ~ 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_translator_alphabet"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/accent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/toolbar_actionbar_alphabet"
+        layout="@layout/toolbar_actionbar" />
+
+    <!-- Dummy element to be able to clear focus from the source text and solve the SurfaceView
+    blinking problem (see https://stackoverflow.com/questions/8772862/surfaceview-flashes-black-on-load) -->
+    <SurfaceView
+        android:layout_width="0px"
+        android:layout_height="0px"
+        android:focusable="true"
+        android:focusableInTouchMode="true" />
+
+    <LinearLayout
+        android:id="@+id/activity_translators_alphabet"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="@dimen/card_margin">
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/src_card_alphabet"
+            style="@style/card"
+            card_view:cardBackgroundColor="@color/card_background"
+            card_view:cardCornerRadius="0dp"
+            card_view:cardElevation="4dp"
+            card_view:cardPreventCornerOverlap="false"
+            card_view:cardUseCompatPadding="true">
+
+            <LinearLayout
+                style="@style/card_inner_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <include
+                    android:id="@+id/src_toolbar_alphabet"
+                    layout="@layout/toolbar_card" />
+
+                <View style="@style/card_horizontal_separator" />
+
+                <LinearLayout
+                    android:id="@+id/src_content_alphabet_scroll"
+                    style="@style/card_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="30dp"
+                    android:scrollbars="vertical">
+
+                    <LinearLayout
+                        android:id="@+id/src_content_alphabet_sound_and_pronunciation"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/textViewKorean_alphabet"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="TextView"
+                            android:textColor="@color/primary_black_dark"
+                            android:textColorLink="@color/primary_black_dark"
+                            android:textSize="24sp"
+                            android:textStyle="bold" />
+
+                        <ImageButton
+                            android:id="@+id/buttonSpeakKorean_alphabet"
+                            android:layout_width="wrap_content"
+                            android:layout_height="33dp"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginStart="20dp"
+                            android:adjustViewBounds="true"
+                            android:padding="0dp"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/ic_action_src_audio"
+                            android:background="?selectableItemBackgroundBorderless"
+                            android:clickable="true" />
+
+
+                        <TextView
+                            android:id="@+id/textViewPronunciation_alphabet"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="-3dp"
+                            android:layout_weight="1"
+                            android:text="\TextView\" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/textViewWordType_alphabet"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/activity_horizontal_margin"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                        android:text="TextView"
+                        android:textStyle="italic" />
+
+
+                    <TextView
+                        android:id="@+id/textView7_alphabet"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="In English"
+                        android:textColor="@android:color/holo_orange_light"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="16dp"
+                        android:textSize="14sp" />
+
+                    <LinearLayout
+                        android:id="@+id/src_content_alphabet_definitions"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/primary"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp">
+
+                        <TextView
+                            android:id="@+id/textViewDefinitions_alphabet"
+                            style="@style/card_text"
+                            android:textSize="14sp"
+                            android:text=": alphabet"
+                            android:textColorLink="@color/primary_black_dark"
+                            android:textColor="@color/primary_black_dark" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <View style="@style/card_horizontal_separator" />
+
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+
+    </LinearLayout>
+
+</LinearLayout>

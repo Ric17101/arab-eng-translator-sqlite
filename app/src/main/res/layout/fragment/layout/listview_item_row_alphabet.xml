@@ -1,0 +1,30 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_book"
+    android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
+                <SearchView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/search_alphabet"
+                    android:id="@+id/searchViewAlphabet"/>
+
+                <ListView
+                    android:id="@+id/listAlphabet"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fastScrollAlwaysVisible="true"
+                    android:layout_below="@+id/searchViewAlphabet" />
+        </RelativeLayout>
+
+
+
+
+</LinearLayout>

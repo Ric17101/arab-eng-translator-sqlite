@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_home"
+            android:title="Home" />
+        <item
+            android:id="@+id/nav_translate"
+            android:icon="@drawable/ic_translate"
+            android:title="Translate" />
+        <item
+            android:id="@+id/nav_dictionary"
+            android:icon="@drawable/ic_dictionary"
+            android:title="Dictionary" />
+        <item
+            android:id="@+id/nav_alphabet"
+            android:icon="@drawable/ic_g_translate"
+            android:title="Alphabet" />
+        <item
+            android:id="@+id/nav_month"
+            android:icon="@drawable/ic_g_translate"
+            android:title="Month" />
+        <item
+            android:id="@+id/nav_help"
+            android:icon="@android:drawable/ic_menu_help"
+            android:title="Help" />
+        <item
+            android:id="@+id/nav_about"
+            android:icon="@drawable/ic_about"
+            android:title="About us" />
+    </group>
+</menu>

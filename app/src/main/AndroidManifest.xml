@@ -1,0 +1,146 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.eng.arab.translator.androidtranslator"
+    android:installLocation="auto">
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <application android:allowBackup="false"
+        android:label="@string/app_name"
+        android:icon="@drawable/ic_launcher"
+        android:theme="@style/app_theme">
+        <activity
+            android:name=".Splash"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/app_theme"
+            android:screenOrientation="portrait">
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".fragment.AboutFragment"
+            android:stateNotNeeded="true"
+            android:label="About Us"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".fragment.AboutFragment" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".fragment.AlphabetFragment"
+            android:stateNotNeeded="true"
+            android:label="Alphabets"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".fragment.AlphabetFragment" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".SettingsActivity"
+            android:stateNotNeeded="true"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".translate.TranslateViewActivity"
+            android:parentActivityName=".MainActivity"
+            android:label="Translator"
+            android:stateNotNeeded="true"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".ShowDetailsMonth"
+            android:stateNotNeeded="true"
+            android:label="Month Details"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".MainActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".activity.DictionaryViewActivity"
+            android:label="Voice"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".MainActivity"/>
+
+        <activity
+            android:name=".ShowDetailsDictionary"
+            android:stateNotNeeded="true"
+            android:label="Dictionary Details"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".activity.DictionaryViewActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".activity.AlphabetViewActivity"
+            android:label="Voice"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".MainActivity"/>
+
+        <activity
+            android:name=".ShowDetailsAlphabet"
+            android:stateNotNeeded="true"
+            android:label="Alphabet Details"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".activity.AlphabetViewActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+    </application>
+
+</manifest>
