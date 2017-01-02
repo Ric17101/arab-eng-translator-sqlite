@@ -40,6 +40,23 @@ public class TranslatorClass {
 
     private Context context;
 
+    /**
+     * Test if First Character on the String is in Arabic Alphabet
+     *
+     * @param s
+     * @return TRUE || FALSE
+     */
+    public static boolean isProbablyArabicOnFirstChar(String s) {
+        char[] c = s.toCharArray();
+        //the arabic letter 'لا' is special case having the range from 0xFE70 to 0xFEFF
+        if (c[0] >= 0x0600 && c[0] <= 0x06E0)
+            return true;
+        if (c[0] >= 0x600 && c[0] <= 0x6ff)
+            return true;
+        return c[0] >= 0xFE70 && c[0] <= 0xFEFF;
+
+    }
+
     public void setContext(Context c) {
         this.context = c;
     }
@@ -92,6 +109,7 @@ public class TranslatorClass {
         return spaceCount;
     }
 
+    /******FIRST ATTEMPT******/
     public String searchWord(String srcSenctence) {
         DatabaseAccess db = DatabaseAccess.getInstance(this.context);
         db.open();
@@ -170,8 +188,9 @@ public class TranslatorClass {
 ////        textResultCol1.setText(searchTextWord);
         return String.valueOf(Html.fromHtml(buffer.toString()));
 //        return "";
-    } // End of searchWord() -->
+    }
 
+    /******SECOND ATTEMPT******/
     public String searchWord2(String srcSenctence) {
         DatabaseAccess db = DatabaseAccess.getInstance(this.context);
         db.open();
@@ -255,7 +274,6 @@ public class TranslatorClass {
         return bool;
     }
 
-
     private String arabicNumberFormatter(String array) // Format Numeric number into ARABIC number Symbol
     {
         // String fulltext =
@@ -272,22 +290,6 @@ public class TranslatorClass {
         return nf.format(myNum);
     }
 
-    /**
-     * Test if First Character on the String is in Arabic Alphabet
-     * @param s
-     * @return TRUE || FALSE
-     */
-    public static boolean isProbablyArabicOnFirstChar(String s) {
-        char[] c = s.toCharArray();
-        //the arabic letter 'لا' is special case having the range from 0xFE70 to 0xFEFF
-        if (c[0] >= 0x0600 && c[0] <= 0x06E0)
-            return true;
-        if (c[0] >= 0x600 && c[0] <= 0x6ff)
-            return true;
-        return c[0] >= 0xFE70 && c[0] <= 0xFEFF;
-
-    }
-
     public String arabicNumberFormatter2(String sentence){
         return sentence
                 .replaceAll("1","١")
@@ -302,24 +304,12 @@ public class TranslatorClass {
                 .replaceAll("0","١");
     }
 
-
-
     /******THIRD ATTEMPT******/
     public String searchWord3(String srcSenctence) {
-        /*if (srcSenctence.equals(""))
-            return "";*/
         String regex = "\\W+"; //(?<=\n)\b"
         String[] sourceAStr = (srcSenctence.trim()).split(regex);
-        /*if (isProbablyArabicOnFirstChar(srcSenctence.split(regex)[0])) {
-            sourceAStr[0] = sourceAStr[0].substring(0, 1) + " "; // Add space if it is English Char
-            sourceAStr = sourceAStr.toString().split(regex); // Reformat again the value and now with space
-        }*/
-
-        //Log.d("SPLIT", fileArrayToString(sourceAStr));
         String[] newList = getArrayOfArrabic(sourceAStr);
-        //Log.d("ARAB", fileArrayToString(newList));
 
-        //int inv = sourceAStr.length - 1;
         for (int i = 0; i < sourceAStr.length; i++/*, inv--*/)
         {
             if (srcSenctence.contains(sourceAStr[i]))
@@ -377,7 +367,7 @@ public class TranslatorClass {
         return newAString.toString().split(" ");
     }
 
-    /* Get the Translation as List from DB */
+    /** Get the Translation as List from DB */
     private String[] getArrayOfArrabic(String[] strList) {
         DatabaseAccess db = DatabaseAccess.getInstance(this.context);
         db.open();
@@ -392,12 +382,8 @@ public class TranslatorClass {
             _continueWithSpaces = tm.getLength();
             if (_continueWithSpaces > 0) { // Continue and skip the translation if and only if data has spaces
                 _continueWithSpaces -= _continueWithSpaces;
-                //continue;
-                //newAString[i] = ("--");
                 newAString[i] = db.getTranslationToArabic(strList[i-_continueWithSpaces]).getEnglish();
-                //newAString[i - _continueWithSpaces] = "-";
                 flag_inverse = 1;
-                //Log.i("counter", _continueWithSpaces+"");
             } else {
                 if (flag_inverse == 0) { // NOT WORKING YET
                     if (tm.getEnglish() == null) {// Should not execute getTRansation... here only once is enough
