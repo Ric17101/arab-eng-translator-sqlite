@@ -15,38 +15,25 @@
   ~ limitations under the License.
   -->
 
-<!--
-  ~ Copyright (c) 2016 Richard C.
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~ You may obtain a copy of the License at
-  ~
-  ~     http://www.apache.org/licenses/LICENSE-2.0
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_translator_translate"
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
-    android:id="@+id/activity_translator_translate"
-    android:background="#d9d9d9">
+    android:background="#d9d9d9"
+    android:orientation="vertical">
 
-    <include layout="@layout/toolbar_translate"  android:id="@+id/toolbar_actionbar_translate"/>
+    <include
+        android:id="@+id/toolbar_actionbar_translate"
+        layout="@layout/toolbar_translate" />
 
     <!-- Dummy element to be able to clear focus from the source text and solve the SurfaceView
     blinking problem (see https://stackoverflow.com/questions/8772862/surfaceview-flashes-black-on-load) -->
     <SurfaceView
-        android:focusable="true"
-        android:focusableInTouchMode="true"
         android:layout_width="0px"
-        android:layout_height="0px" />
+        android:layout_height="0px"
+        android:focusable="true"
+        android:focusableInTouchMode="true" />
 
     <LinearLayout
         android:id="@+id/activity_translators"
@@ -55,40 +42,47 @@
         android:orientation="vertical"
         android:padding="@dimen/card_margin">
 
-        <android.support.v7.widget.CardView style="@style/card"
+        <android.support.v7.widget.CardView
             android:id="@+id/src_card"
+            style="@style/card"
+            android:foreground="?android:attr/selectableItemBackground"
             card_view:cardBackgroundColor="@color/card_background"
             card_view:cardCornerRadius="0dp"
             card_view:cardElevation="4dp"
-            card_view:cardUseCompatPadding="true"
             card_view:cardPreventCornerOverlap="false"
-            android:foreground="?android:attr/selectableItemBackground">
+            card_view:cardUseCompatPadding="true">
 
             <LinearLayout style="@style/card_inner_layout"
-                android:layout_height="match_parent"
                 android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 >
 
-                <include layout="@layout/toolbar_card" android:id="@+id/src_toolbar" />
+                <include
+                    android:id="@+id/src_toolbar"
+                    layout="@layout/toolbar_card" />
 
                 <View style="@style/card_horizontal_separator" />
 
-                <LinearLayout style="@style/card_content"
+                <LinearLayout
                     android:id="@+id/src_translate_content"
-                    android:layout_height="match_parent"
-                    android:layout_width="match_parent">
-                    <EditText style="@style/card_text"
+                    style="@style/card_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <EditText
                         android:id="@+id/src_text"
-                        android:scrollbars="vertical"
+                        style="@style/card_text"
+                        android:hint="Type arabic..."
                         android:scrollbarStyle="outsideOverlay"
-                        android:textSize="18sp"
-                        android:hint="Type arabic..."/>
+                        android:scrollbars="vertical"
+                        android:textSize="18sp" />
                 </LinearLayout>
 
                 <View style="@style/card_horizontal_separator" />
 
-                <Button style="@style/card_main_button"
+                <Button
                     android:id="@+id/main_translate_button"
+                    style="@style/card_main_button"
                     android:text="@string/translate_button" />
 
             </LinearLayout>
@@ -96,33 +90,41 @@
         </android.support.v7.widget.CardView>
 
 
-        <android.support.v7.widget.CardView style="@style/card"
+        <android.support.v7.widget.CardView
             android:id="@+id/translate_trg_card"
+            style="@style/card"
+            android:foreground="?android:attr/selectableItemBackground"
             card_view:cardBackgroundColor="@color/card_background"
             card_view:cardCornerRadius="0dp"
             card_view:cardElevation="@dimen/card_elevation"
-            card_view:cardUseCompatPadding="true"
             card_view:cardPreventCornerOverlap="false"
-            android:foreground="?android:attr/selectableItemBackground">
+            card_view:cardUseCompatPadding="true">
 
             <LinearLayout style="@style/card_inner_layout"
-                android:layout_height="match_parent"
-                android:layout_width="match_parent">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-                <include layout="@layout/toolbar_card" android:id="@+id/translate_trg_toolbar" />
+                <include
+                    android:id="@+id/translate_trg_toolbar"
+                    layout="@layout/toolbar_card" />
 
                 <View style="@style/card_horizontal_separator" />
 
-                <LinearLayout style="@style/card_content"
+                <LinearLayout
                     android:id="@+id/trg_content"
-                    android:layout_height="match_parent"
-                    android:layout_width="match_parent">
+                    style="@style/card_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
                     <ScrollView
                         android:id="@+id/trg_text_scroll"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
-                        <TextView style="@style/card_text" android:id="@+id/trg_text" android:textSize="18sp"
-                            android:textColor="@color/black" />
+
+                        <TextView
+                            android:id="@+id/trg_text"
+                            style="@style/card_text"
+                            android:textColor="@color/black"
+                            android:textSize="18sp" />
                     </ScrollView>
                 </LinearLayout>
 

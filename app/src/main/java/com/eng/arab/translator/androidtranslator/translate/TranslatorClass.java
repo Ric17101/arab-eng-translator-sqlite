@@ -96,8 +96,7 @@ public class TranslatorClass {
         return bufferCol2.toString();
     }
 
-    private int countSpace(String strToken)
-    {
+    private int countSpace(String strToken) {
         int spaceCount = 0;
         int i = 0;
         while( i < strToken.length() ){
