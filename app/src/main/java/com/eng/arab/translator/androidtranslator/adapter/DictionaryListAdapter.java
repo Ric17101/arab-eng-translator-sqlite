@@ -17,7 +17,7 @@ import android.widget.Toast;
 import com.arlib.floatingsearchview.util.Util;
 import com.eng.arab.translator.androidtranslator.R;
 import com.eng.arab.translator.androidtranslator.ShowDetailsDictionary;
-import com.eng.arab.translator.androidtranslator.dictinary.DictionaryModel;
+import com.eng.arab.translator.androidtranslator.dictinary.DictionaryWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,8 +26,8 @@ import java.util.Locale;
 public class DictionaryListAdapter extends RecyclerView.Adapter<DictionaryListAdapter.ViewHolder>
         implements TextToSpeech.OnInitListener {
 
-    private List<DictionaryModel> mDataSet = new ArrayList<>();
-    private DictionaryModel alphabetSuggestion;
+    private List<DictionaryWrapper> mDataSet = new ArrayList<>();
+    private DictionaryWrapper alphabetSuggestion;
     private int mLastAnimatedItemPosition = -1;
     private int mLasItemPosition = 0;
     private Context mContext;
@@ -36,50 +36,16 @@ public class DictionaryListAdapter extends RecyclerView.Adapter<DictionaryListAd
     private TextToSpeech engine;
     private double pitch = 1.0;
     private double speed = 1.0;
+    private OnItemClickListener mItemsOnClickListener;
 
     public DictionaryListAdapter() { }
 
-    public DictionaryListAdapter(List<DictionaryModel> wordList) {
+    public DictionaryListAdapter(List<DictionaryWrapper> wordList) {
         this.mDataSet = wordList;
         notifyDataSetChanged();
     }
 
-    public interface OnItemClickListener {
-        void onClick(DictionaryModel colorWrapper);
-    }
-
-    private OnItemClickListener mItemsOnClickListener;
-
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public final TextView dictionaryName;
-        public final CardView cv_word_item;
-
-        public ViewHolder(View view) {
-            super(view);
-            //tts_init();
-            dictionaryName = (TextView) view.findViewById(R.id.dictionary_name);
-            cv_word_item = (CardView) view.findViewById(R.id.cv_word_item);
-            cv_word_item.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View v) {
-            // speakWords("TEST");
-            //Toast.makeText(v.getContext(), "TEST", Toast.LENGTH_SHORT).show();
-            v.getContext().startActivity(new Intent(v.getContext(), ShowDetailsDictionary.class)
-                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-            //overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);
-            Intent intent = new Intent(v.getContext(), ShowDetailsDictionary.class);
-            intent.putExtra("MONTH", dictionaryName.getText().toString());
-            v.getContext().startActivity(intent);
-
-            // Set up animation to the this view
-            Activity a = (Activity) v.getContext();
-            a.overridePendingTransition(R.anim.enter, R.anim.exit);
-        }
-    }
-
-    public void swapData(List<DictionaryModel> mNewDataSet) {
+    public void swapData(List<DictionaryWrapper> mNewDataSet) {
         mDataSet = mNewDataSet;
         notifyDataSetChanged();
     }
@@ -99,7 +65,7 @@ public class DictionaryListAdapter extends RecyclerView.Adapter<DictionaryListAd
     @Override
     public void onBindViewHolder(final DictionaryListAdapter.ViewHolder holder, final int position) {
         alphabetSuggestion = mDataSet.get(holder.getAdapterPosition());
-        holder.dictionaryName.setText(alphabetSuggestion.getArabic());
+        holder.dictionaryName.setText(alphabetSuggestion.getArabic().trim());
 
         if (mLastAnimatedItemPosition < position) {
             animateItem(holder.itemView);
@@ -146,5 +112,38 @@ public class DictionaryListAdapter extends RecyclerView.Adapter<DictionaryListAd
         engine.speak(speak, TextToSpeech.QUEUE_FLUSH, null);
 //        engine.speak(speak, null,null);
 //        engine.speak(speak, TextToSpeech.QUEUE_FLUSH, null, null);
+    }
+
+    public interface OnItemClickListener {
+        void onClick(DictionaryWrapper colorWrapper);
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        public final TextView dictionaryName;
+        public final CardView cv_word_item;
+
+        public ViewHolder(View view) {
+            super(view);
+            //tts_init();
+            dictionaryName = (TextView) view.findViewById(R.id.dictionary_name);
+            cv_word_item = (CardView) view.findViewById(R.id.cv_word_item);
+            cv_word_item.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            // speakWords("TEST");
+            //Toast.makeText(v.getContext(), "TEST", Toast.LENGTH_SHORT).show();
+            v.getContext().startActivity(new Intent(v.getContext(), ShowDetailsDictionary.class)
+                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+            //overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);
+            Intent intent = new Intent(v.getContext(), ShowDetailsDictionary.class);
+            intent.putExtra("MONTH", dictionaryName.getText().toString());
+            v.getContext().startActivity(intent);
+
+            // Set up animation to the this view
+            Activity a = (Activity) v.getContext();
+            a.overridePendingTransition(R.anim.enter, R.anim.exit);
+        }
     }
 }

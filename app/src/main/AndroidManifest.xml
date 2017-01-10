@@ -22,8 +22,8 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application android:allowBackup="false"
-        android:label="@string/app_name"
         android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
         android:theme="@style/app_theme">
         <activity
             android:name=".Splash"
@@ -38,8 +38,8 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/app_theme"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/app_theme">
 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -55,10 +55,10 @@
 
         <activity
             android:name=".translate.TranslateViewActivity"
-            android:parentActivityName=".MainActivity"
             android:label="Translator"
-            android:stateNotNeeded="true"
-            android:screenOrientation="portrait">
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait"
+            android:stateNotNeeded="true">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
@@ -71,10 +71,10 @@
 
         <activity
             android:name=".ShowDetailsMonth"
-            android:stateNotNeeded="true"
             android:label="Month Details"
+            android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait"
-            android:parentActivityName=".MainActivity" >
+            android:stateNotNeeded="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -85,15 +85,15 @@
         <activity
             android:name=".activity.DictionaryViewActivity"
             android:label="Voice"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".MainActivity"/>
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".ShowDetailsDictionary"
-            android:stateNotNeeded="true"
             android:label="Dictionary Details"
+            android:parentActivityName=".activity.DictionaryViewActivity"
             android:screenOrientation="portrait"
-            android:parentActivityName=".activity.DictionaryViewActivity" >
+            android:stateNotNeeded="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -104,15 +104,15 @@
         <activity
             android:name=".activity.AlphabetViewActivity"
             android:label="Voice"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".MainActivity"/>
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".ShowDetailsAlphabet"
-            android:stateNotNeeded="true"
             android:label="Alphabet Details"
+            android:parentActivityName=".activity.AlphabetViewActivity"
             android:screenOrientation="portrait"
-            android:parentActivityName=".activity.AlphabetViewActivity" >
+            android:stateNotNeeded="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -120,6 +120,11 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".activity.NumberViewActivity"
+            android:label="Voice"
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

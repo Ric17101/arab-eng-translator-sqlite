@@ -27,18 +27,16 @@ import com.eng.arab.translator.androidtranslator.R;
 import com.eng.arab.translator.androidtranslator.ShowDetailsDictionary;
 import com.eng.arab.translator.androidtranslator.adapter.DictionaryListAdapter;
 import com.eng.arab.translator.androidtranslator.dictinary.DictionaryDataHelper;
-import com.eng.arab.translator.androidtranslator.dictinary.DictionaryModel;
+import com.eng.arab.translator.androidtranslator.dictinary.DictionaryWrapper;
 import com.eng.arab.translator.androidtranslator.dictinary.DictionarySuggestion;
 import com.eng.arab.translator.androidtranslator.model.DatabaseAccess;
 
 import java.util.List;
 
 public class DictionaryViewActivity extends AppCompatActivity {
-    private final String TAG = "BlankFragment";
-    private static final int REQUEST_CODE = 1234;
-
     public static final long FIND_SUGGESTION_SIMULATED_DELAY = 250;
-
+    private static final int REQUEST_CODE = 1234;
+    private final String TAG = "BlankFragment";
     private FloatingSearchView mSearchView;
 
     private RecyclerView mSearchResultsList;
@@ -67,7 +65,7 @@ public class DictionaryViewActivity extends AppCompatActivity {
     }
 
     private void populateCardList() {
-        List<DictionaryModel> results = getAllData(getApplicationContext());
+        List<DictionaryWrapper> results = getAllData(getApplicationContext());
 
         mSearchResultsList.setHasFixedSize(true);
         mSearchResultsList.setLayoutManager(new LinearLayoutManager(this));
@@ -79,11 +77,11 @@ public class DictionaryViewActivity extends AppCompatActivity {
         Setting data of sAlphabetWrappers onSearch
         CALLED at AlphabetViewActivity
     */
-    public List<DictionaryModel> getAllData(Context context) {
+    public List<DictionaryWrapper> getAllData(Context context) {
         DatabaseAccess db;
         db = DatabaseAccess.getInstance(context.getApplicationContext());
         db.open();
-        List<DictionaryModel> list = db.getAllDictionaryDetailsOfWords();
+        List<DictionaryWrapper> list = db.getAllDictionaryDetailsOfWords();
         db.close();
         return list;
     }
@@ -92,11 +90,11 @@ public class DictionaryViewActivity extends AppCompatActivity {
         Setting data of sAlphabetWrappers onSearch using the LIKE operator per Keywor of the word
         CALLED at AlphabetViewActivity
     */
-    public List<DictionaryModel> getSuggestionData(Context context, String keyWordSearch) {
+    public List<DictionaryWrapper> getSuggestionData(Context context, String keyWordSearch) {
         DatabaseAccess db;
         db = DatabaseAccess.getInstance(context.getApplicationContext());
         db.open();
-        List<DictionaryModel> list = db.getLikeDictionaryDetailsByWord(keyWordSearch);
+        List<DictionaryWrapper> list = db.getLikeDictionaryDetailsByWord(keyWordSearch);
         db.close();
         return list;
     }
@@ -181,7 +179,7 @@ public class DictionaryViewActivity extends AppCompatActivity {
                         new DictionaryDataHelper.OnFindWordListener() {
 
                             @Override
-                            public void onResults(List<DictionaryModel> results) {
+                            public void onResults(List<DictionaryWrapper> results) {
                                 mSearchResultsAdapter.swapData(results);
                             }
 
@@ -199,7 +197,7 @@ public class DictionaryViewActivity extends AppCompatActivity {
                         new DictionaryDataHelper.OnFindWordListener() {
 
                             @Override
-                            public void onResults(List<DictionaryModel> results) {
+                            public void onResults(List<DictionaryWrapper> results) {
                                 mSearchResultsAdapter.swapData(results);
                             }
 
@@ -213,7 +211,7 @@ public class DictionaryViewActivity extends AppCompatActivity {
             public void onFocus() {
 
                 //show suggestions when search bar gains focus (typically history suggestions)
-//                AlphabetDataHelper cdh = new AlphabetDataHelper();
+//                NumberDataHelper cdh = new NumberDataHelper();
 //                cdh.setContext(getApplicationContext());
                 mSearchView.swapSuggestions(DictionaryDataHelper.getHistory(getApplicationContext(), 5));
 
@@ -307,7 +305,7 @@ public class DictionaryViewActivity extends AppCompatActivity {
                     /*leftIcon.setAlpha(0.0f);
                     leftIcon.setImageDrawable(null);*/
 
-                    /*List<DictionaryModel> results = getSuggestionData(getApplicationContext(), mSearchView.getQuery());
+                    /*List<DictionaryWrapper> results = getSuggestionData(getApplicationContext(), mSearchView.getQuery());
                     Toast.makeText(getApplicationContext().getApplicationContext(), results.toString(),
                             Toast.LENGTH_SHORT).show();
 

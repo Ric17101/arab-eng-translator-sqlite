@@ -3,8 +3,19 @@ package com.eng.arab.translator.androidtranslator.dictinary;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class DictionaryModel implements Parcelable {
+public class DictionaryWrapper implements Parcelable {
 
+	public static final Creator<DictionaryWrapper> CREATOR = new Creator<DictionaryWrapper>() {
+		@Override
+		public DictionaryWrapper createFromParcel(Parcel in) {
+			return new DictionaryWrapper(in);
+		}
+
+		@Override
+		public DictionaryWrapper[] newArray(int size) {
+			return new DictionaryWrapper[size];
+		}
+	};
 	//private variables
 	public int _id;
 	public String _english;
@@ -14,10 +25,10 @@ public class DictionaryModel implements Parcelable {
 	public String _pronunciation;
 
 	// Empty constructor
-	public DictionaryModel(){
+	public DictionaryWrapper() {
 	}
 
-	protected DictionaryModel(Parcel in) {
+	protected DictionaryWrapper(Parcel in) {
 		_id = in.readInt();
 		_english = in.readString();
 		_arabic = in.readString();
@@ -26,17 +37,15 @@ public class DictionaryModel implements Parcelable {
 		_pronunciation = in.readString();
 	}
 
-	public static final Creator<DictionaryModel> CREATOR = new Creator<DictionaryModel>() {
-		@Override
-		public DictionaryModel createFromParcel(Parcel in) {
-			return new DictionaryModel(in);
-		}
-
-		@Override
-		public DictionaryModel[] newArray(int size) {
-			return new DictionaryModel[size];
-		}
-	};
+	// constructor
+	public DictionaryWrapper(int id, String english, String arabic, String type, String definition, String pronunciation) {
+		this._id = id;
+		this._english = english;
+		this._arabic = arabic;
+		this._type = type;
+		this._type = definition;
+		this._pronunciation = pronunciation;
+	}
 
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
@@ -52,17 +61,6 @@ public class DictionaryModel implements Parcelable {
 	public int describeContents() {
 		return 0;
 	}
-
-	// constructor
-	public DictionaryModel(int id, String english, String arabic, String type, String definition, String pronunciation){
-		this._id = id;
-		this._english = english;
-		this._arabic = arabic;
-		this._type = type;
-		this._type = definition;
-		this._pronunciation = pronunciation;
-	}
-
 
 	public String toString(){
 		return "ID : "+ this._id + "\nEnglish : " + this._english + "\nArabic : "

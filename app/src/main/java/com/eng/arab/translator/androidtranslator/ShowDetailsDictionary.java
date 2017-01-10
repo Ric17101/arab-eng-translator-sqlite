@@ -33,18 +33,27 @@ import java.util.Locale;
 public class ShowDetailsDictionary extends AppCompatActivity implements OnClickListener, TextToSpeech.OnInitListener {
     private static final String STATE_SRC_CARD_VISIBILITY = "SRC_CARD_VISIBILITY";
     private static final String STATE_SRC_TEXT = "SRC_TEXT";
+    /**
+     * <strong>public void showAToast (String st)</strong></br>
+     * this little method displays a toast on the screen.</br>
+     * it checks if a toast is currently visible</br>
+     * if so </br>
+     * ... it "sets" the new text</br>
+     * else</br>
+     * ... it "makes" the new text</br>
+     * and "shows" either or
+     *
+     * @param st the string to be toasted
+     */
+    Toast toast = null;
     private int keyboard_flag = 0;
-
     private boolean editing = false;
-
     private SharedPreferences preferences;
     private LinearLayout mainPanel;
     private Spinner actionBarSpinner;
-
     private CardView srcCard;
-    private Toolbar srcToolbar;
 //    private LinearLayout srcContent;
-
+private Toolbar srcToolbar;
     private TextView trg_text_details;
     private TextView textViewKorean;
     private TextView textViewPronunciation;
@@ -52,12 +61,10 @@ public class ShowDetailsDictionary extends AppCompatActivity implements OnClickL
     private TextView textViewDefinitions;
     private TextView textViewEnglish;
     private ImageButton buttonSpeakKorean;
-
     //TTS object
     private TextToSpeech myTTS;
     //status check code
     private int MY_DATA_CHECK_CODE = 0;
-
     private String TextToSpeak;
 
     @Override
@@ -91,7 +98,6 @@ public class ShowDetailsDictionary extends AppCompatActivity implements OnClickL
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
         overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);
     }
-
 
     private void InitMainPanel() {
         mainPanel = (LinearLayout)findViewById(R.id.activity_translators_dictionary);
@@ -149,8 +155,8 @@ public class ShowDetailsDictionary extends AppCompatActivity implements OnClickL
         textViewEnglish = (TextView) findViewById(R.id.textViewEnglish_dictionary);
 
         // Setting Details for the MONTH
-        textViewKorean.setText(arabic_word);
-        textViewPronunciation.setText("\\" + alpha.get(0).getPronunciation() + "\\");
+        textViewKorean.setText(arabic_word.trim());
+        textViewPronunciation.setText("\\" + alpha.get(0).getPronunciation().trim() + "\\");
         textViewWordType.setText(alpha.get(0).getType().toLowerCase());
         textViewDefinitions.setText(": " + alpha.get(0).getDefinition());
         textViewEnglish.setText(": " + alpha.get(0).getEnglish());
@@ -237,12 +243,10 @@ public class ShowDetailsDictionary extends AppCompatActivity implements OnClickL
         return true;
     }
 
-
     @Override
     protected void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
     }
-
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
@@ -281,19 +285,6 @@ public class ShowDetailsDictionary extends AppCompatActivity implements OnClickL
 //        }
     }
 
-
-    /**
-     * <strong>public void showAToast (String st)</strong></br>
-     * this little method displays a toast on the screen.</br>
-     * it checks if a toast is currently visible</br>
-     * if so </br>
-     * ... it "sets" the new text</br>
-     * else</br>
-     * ... it "makes" the new text</br>
-     * and "shows" either or
-     * @param st the string to be toasted
-     */
-    Toast toast = null;
     public void showAToast(String st) { //"Toast toast" is declared in the class
         try{ toast.getView().isShown();     // true if visible
             toast.setText(st);

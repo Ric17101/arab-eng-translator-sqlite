@@ -40,22 +40,26 @@ import android.util.Log;
 
 import com.eng.arab.translator.androidtranslator.alphabet.AlphabetModel;
 import com.eng.arab.translator.androidtranslator.alphabet.AlphabetSuggestion;
-import com.eng.arab.translator.androidtranslator.dictinary.DictionaryModel;
+import com.eng.arab.translator.androidtranslator.dictinary.DictionaryWrapper;
 import com.eng.arab.translator.androidtranslator.dictinary.DictionarySuggestion;
+import com.eng.arab.translator.androidtranslator.number.NumberSuggestion;
+import com.eng.arab.translator.androidtranslator.number.NumberWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class DatabaseAccess {
-	private SQLiteOpenHelper openHelper;
-	private SQLiteDatabase database;
-	private static DatabaseAccess instance;
 //	private static final String TABLE_LANGUAGE = "language";
 	private static final String TABLE_LANGUAGE = "dictionary";
 	private static final String TABLE_DICTIONARY = "dictionary";
 	private static final String TABLE_ALPHABET = "alphabets";
-	private static final String TABLE_MONTHS   = "months";
-	/**
+    private static final String TABLE_NUMBER = "numbers";
+    private static final String TABLE_MONTHS   = "months";
+    private static DatabaseAccess instance;
+    private SQLiteOpenHelper openHelper;
+    private SQLiteDatabase database;
+
+    /**
 	 * Private constructor to aboid object creation from outside classes.
 	 *
 	 * @param context
@@ -281,11 +285,11 @@ public class DatabaseAccess {
 		return translationList;
 	}
 
-	public List<DictionaryModel> getAllDictionary() {
-		ArrayList<DictionaryModel> translationList = new ArrayList<DictionaryModel>();
-		String selectQuery = "SELECT * FROM " + TABLE_DICTIONARY;
+    public List<DictionaryWrapper> getAllDictionary() {
+        ArrayList<DictionaryWrapper> translationList = new ArrayList<DictionaryWrapper>();
+        String selectQuery = "SELECT * FROM " + TABLE_DICTIONARY;
 		Cursor cursor = database.rawQuery(selectQuery, null);
-        DictionaryModel alpha = new DictionaryModel();
+        DictionaryWrapper alpha = new DictionaryWrapper();
 
 		if (cursor.moveToFirst()) {
 			do {
@@ -308,15 +312,15 @@ public class DatabaseAccess {
 	}
 
 	// Getting Details Data of all ALPHABET
-	public List<DictionaryModel> getAllDictionaryDetailsOfWords() {
-		ArrayList<DictionaryModel> translationList = new ArrayList<>();
-		String selectQuery = "SELECT * FROM " + TABLE_DICTIONARY;
+    public List<DictionaryWrapper> getAllDictionaryDetailsOfWords() {
+        ArrayList<DictionaryWrapper> translationList = new ArrayList<>();
+        String selectQuery = "SELECT * FROM " + TABLE_DICTIONARY;
 
 		Cursor cursor = database.rawQuery(selectQuery, null);
 		if (cursor.moveToFirst()) {
 			do {
-				DictionaryModel alpha = new DictionaryModel();
-				alpha.setID(Integer.parseInt(cursor.getString(0)));
+                DictionaryWrapper alpha = new DictionaryWrapper();
+                alpha.setID(Integer.parseInt(cursor.getString(0)));
 				alpha.setArabic(cursor.getString(1));
 				alpha.setEnglish(cursor.getString(2));
 				alpha.setType(cursor.getString(3));
@@ -333,15 +337,15 @@ public class DatabaseAccess {
 	}
 
 	// Getting using LIKE Operator Details Data ALPHABET
-	public List<DictionaryModel> getLikeDictionaryDetailsByWord(String word) {
-		ArrayList<DictionaryModel> translationList = new ArrayList<>();
-		String selectQuery = "SELECT * FROM " + TABLE_DICTIONARY + " WHERE arabic LIKE '%" + word +"%'";
+    public List<DictionaryWrapper> getLikeDictionaryDetailsByWord(String word) {
+        ArrayList<DictionaryWrapper> translationList = new ArrayList<>();
+        String selectQuery = "SELECT * FROM " + TABLE_DICTIONARY + " WHERE arabic LIKE '%" + word +"%'";
 
 		Cursor cursor = database.rawQuery(selectQuery, null);
 		if (cursor.moveToFirst()) {
 			do {
-				DictionaryModel alpha = new DictionaryModel();
-				alpha.setID(Integer.parseInt(cursor.getString(0)));
+                DictionaryWrapper alpha = new DictionaryWrapper();
+                alpha.setID(Integer.parseInt(cursor.getString(0)));
 				alpha.setArabic(cursor.getString(1));
 				alpha.setEnglish(cursor.getString(2));
 				alpha.setType(cursor.getString(3));
@@ -358,14 +362,14 @@ public class DatabaseAccess {
 	}
 
     // Getting Details Data ALPHABET
-    public List<DictionaryModel> getAllDictionaryDetailsByWord(String word) {
-        ArrayList<DictionaryModel> translationList = new ArrayList<>();
+    public List<DictionaryWrapper> getAllDictionaryDetailsByWord(String word) {
+        ArrayList<DictionaryWrapper> translationList = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + TABLE_DICTIONARY + " WHERE arabic=\"" + word +"\"";
 
         Cursor cursor = database.rawQuery(selectQuery, null);
         if (cursor.moveToFirst()) {
             do {
-                DictionaryModel alpha = new DictionaryModel();
+                DictionaryWrapper alpha = new DictionaryWrapper();
                 alpha.setID(Integer.parseInt(cursor.getString(0)));
                 alpha.setArabic(cursor.getString(1));
                 alpha.setEnglish(cursor.getString(2));
@@ -530,4 +534,98 @@ public class DatabaseAccess {
 		return translationList;
 	}
 
+
+    /******************
+     * ALPHABETS QUERY
+     ******************/
+    // Getting All Data
+    public List<NumberSuggestion> getNumbers() {
+        ArrayList<NumberSuggestion> translationList = new ArrayList<NumberSuggestion>();
+
+        String selectQuery = "SELECT * FROM " + TABLE_NUMBER;
+        //Cursor cursor = database.rawQuery(selectQuery, null);
+        Cursor cursor = database.rawQuery("SELECT * FROM " + TABLE_NUMBER, null);
+        if (cursor.moveToFirst()) {
+            do {
+                String translation = cursor.getString(2); // Get only letters from DB
+                translationList.add(new NumberSuggestion(translation));
+            } while (cursor.moveToNext());
+        }
+        if (!cursor.isClosed()) {
+            cursor.close();
+        }
+        // return data list
+        return translationList;
+    }
+
+    public List<NumberWrapper> getAllNumbers() {
+        ArrayList<NumberWrapper> translationList = new ArrayList<NumberWrapper>();
+        String selectQuery = "SELECT * FROM " + TABLE_NUMBER;
+        Cursor cursor = database.rawQuery(selectQuery, null);
+        NumberWrapper alpha = new NumberWrapper();
+        if (cursor.moveToFirst()) {
+            do {
+                alpha.setID(Integer.parseInt(cursor.getString(0)));
+                alpha.setPronunciation(cursor.getString(1));
+                alpha.setNumber(cursor.getString(2));
+                alpha.setExample(cursor.getString(3));
+                alpha.setVideoFileName(cursor.getString(4));
+                translationList.add(alpha);
+            } while (cursor.moveToNext());
+        }
+
+        if (!cursor.isClosed()) {
+            cursor.close();
+        }
+        // return data list
+        return translationList;
+    }
+
+    // Getting Details Data NUMBER
+    public List<NumberWrapper> getAllDetailsByNumber(String number) {
+        ArrayList<NumberWrapper> translationList = new ArrayList<>();
+        String selectQuery = "SELECT * FROM " + TABLE_NUMBER + " WHERE number=\"" + number + "\"";
+
+        Cursor cursor = database.rawQuery(selectQuery, null);
+        if (cursor.moveToFirst()) {
+            do {
+                NumberWrapper alpha = new NumberWrapper();
+                alpha.setID(Integer.parseInt(cursor.getString(0)));
+                alpha.setPronunciation(cursor.getString(1));
+                alpha.setNumber(cursor.getString(2));
+                alpha.setExample(cursor.getString(3));
+                alpha.setVideoFileName(cursor.getString(4));
+                translationList.add(alpha);
+            } while (cursor.moveToNext());
+        }
+
+        if (!cursor.isClosed()) {
+            cursor.close();
+        }
+        return translationList;
+    }
+
+    // Getting Details Data of all ALPHABET
+    public List<NumberWrapper> getAllDetailsOfNumbers() {
+        ArrayList<NumberWrapper> translationList = new ArrayList<>();
+        String selectQuery = "SELECT * FROM " + TABLE_NUMBER;
+
+        Cursor cursor = database.rawQuery(selectQuery, null);
+        if (cursor.moveToFirst()) {
+            do {
+                NumberWrapper alpha = new NumberWrapper();
+                alpha.setID(Integer.parseInt(cursor.getString(0)));
+                alpha.setPronunciation(cursor.getString(1));
+                alpha.setNumber(cursor.getString(2));
+                alpha.setExample(cursor.getString(3));
+                alpha.setVideoFileName(cursor.getString(4));
+                translationList.add(alpha);
+            } while (cursor.moveToNext());
+        }
+
+        if (!cursor.isClosed()) {
+            cursor.close();
+        }
+        return translationList;
+    }
 }

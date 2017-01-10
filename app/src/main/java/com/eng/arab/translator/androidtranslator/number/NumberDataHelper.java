@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.eng.arab.translator.androidtranslator.alphabet;
+package com.eng.arab.translator.androidtranslator.number;
 
 
 import android.content.Context;
@@ -29,49 +29,49 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class AlphabetDataHelper {
+public class NumberDataHelper {
 
     private static Context mContext;
     //private static final String COLORS_FILE_NAME = "colors.json";
     private static DatabaseAccess db;
-    private static List<AlphabetModel> sAlphabetWrappers = new ArrayList<AlphabetModel>();
-    private static List<AlphabetSuggestion> sAlphabetSuggestions_ =
+    private static List<NumberWrapper> sAlphabetWrappers = new ArrayList<NumberWrapper>();
+    private static List<NumberSuggestion> sNumberSuggestions_ =
             new ArrayList<>(Arrays.asList(
-                    new AlphabetSuggestion("green"),
-                    new AlphabetSuggestion("blue"),
-                    new AlphabetSuggestion("pink"),
-                    new AlphabetSuggestion("purple"),
-                    new AlphabetSuggestion("brown"),
-                    new AlphabetSuggestion("gray"),
-                    new AlphabetSuggestion("Granny Smith Apple"),
-                    new AlphabetSuggestion("Indigo"),
-                    new AlphabetSuggestion("Periwinkle"),
-                    new AlphabetSuggestion("Mahogany"),
-                    new AlphabetSuggestion("Maize"),
-                    new AlphabetSuggestion("Mahogany"),
-                    new AlphabetSuggestion("Outer Space"),
-                    new AlphabetSuggestion("Melon"),
-                    new AlphabetSuggestion("Yellow"),
-                    new AlphabetSuggestion("Orange"),
-                    new AlphabetSuggestion("Red"),
-                    new AlphabetSuggestion("Orchid")));
+                    new NumberSuggestion("green"),
+                    new NumberSuggestion("blue"),
+                    new NumberSuggestion("pink"),
+                    new NumberSuggestion("purple"),
+                    new NumberSuggestion("brown"),
+                    new NumberSuggestion("gray"),
+                    new NumberSuggestion("Granny Smith Apple"),
+                    new NumberSuggestion("Indigo"),
+                    new NumberSuggestion("Periwinkle"),
+                    new NumberSuggestion("Mahogany"),
+                    new NumberSuggestion("Maize"),
+                    new NumberSuggestion("Mahogany"),
+                    new NumberSuggestion("Outer Space"),
+                    new NumberSuggestion("Melon"),
+                    new NumberSuggestion("Yellow"),
+                    new NumberSuggestion("Orange"),
+                    new NumberSuggestion("Red"),
+                    new NumberSuggestion("Orchid")));
 
-    /*private static List<NumberSuggestion> sAlphabetSuggestions =
+    /*private static List<NumberSuggestion> sNumberSuggestions =
             new ArrayList<>(new DatabaseAccess(mContext.getApplicationContext()).getAlphabets());*/
-    //private static List<NumberSuggestion> sAlphabetSuggestions = null;
-    private static List<AlphabetSuggestion> sAlphabetSuggestions =
+    //private static List<NumberSuggestion> sNumberSuggestions = null;
+    private static List<NumberSuggestion> sNumberSuggestions =
             new ArrayList<>(Arrays.asList(
-                    new AlphabetSuggestion(""))
+                    new NumberSuggestion(""))
             );
 
-    public AlphabetDataHelper(Context context) {
+    public NumberDataHelper(Context context) {
         mContext = context;
-        sAlphabetSuggestions =
-                new ArrayList<>(new DatabaseAccess(mContext.getApplicationContext()).getAlphabets());
+        sNumberSuggestions =
+                new ArrayList<>(new DatabaseAccess(mContext.getApplicationContext()).getNumbers());
     }
 
-    public static List<AlphabetSuggestion> getAlphabetSuggestions(Context context) {
-        return sAlphabetSuggestions;
+    public static List<NumberSuggestion> getAlphabetSuggestions(Context context) {
+        return sNumberSuggestions;
     }
     //private static Context mContext;
 
@@ -92,12 +92,12 @@ public class AlphabetDataHelper {
 
     }*/
 
-    public static List<AlphabetSuggestion> getHistory(Context context, int count) {
+    public static List<NumberSuggestion> getHistory(Context context, int count) {
 
-        List<AlphabetSuggestion> suggestionList = new ArrayList<>();
-        AlphabetSuggestion colorSuggestion;
-        for (int i = 0; i < sAlphabetSuggestions.size(); i++) {
-            colorSuggestion = sAlphabetSuggestions.get(i);
+        List<NumberSuggestion> suggestionList = new ArrayList<>();
+        NumberSuggestion colorSuggestion;
+        for (int i = 0; i < sNumberSuggestions.size(); i++) {
+            colorSuggestion = sNumberSuggestions.get(i);
             colorSuggestion.setIsHistory(false);
             //suggestionList.add(colorSuggestion);
 //            if (suggestionList.size() == count) {
@@ -107,20 +107,20 @@ public class AlphabetDataHelper {
         return suggestionList;
     }
 
-    public static List<AlphabetSuggestion> getHistory_my(Context context, int count) {
-        List<AlphabetSuggestion> suggestionList = new ArrayList<>();
-        AlphabetSuggestion alphabetSuggestion;
+    public static List<NumberSuggestion> getHistory_my(Context context, int count) {
+        List<NumberSuggestion> suggestionList = new ArrayList<>();
+        NumberSuggestion numberSuggestion;
 
         // Initialze DB
         db = DatabaseAccess.getInstance(context.getApplicationContext());
         db.open();
-        List<AlphabetSuggestion> alpha = db.getAlphabets();
+        List<NumberSuggestion> alpha = db.getNumbers();
         db.close();
 
         for (int i = 0; i < alpha.size(); i++) {
-            alphabetSuggestion = alpha.get(i);
-            alphabetSuggestion.setIsHistory(true);
-            suggestionList.add(alphabetSuggestion);
+            numberSuggestion = alpha.get(i);
+            numberSuggestion.setIsHistory(true);
+            suggestionList.add(numberSuggestion);
             if (suggestionList.size() == count) {
                 break;
             }
@@ -129,21 +129,21 @@ public class AlphabetDataHelper {
     }
 
     private static void resetSuggestionsHistory() {
-        for (AlphabetSuggestion alphabetSuggestion : sAlphabetSuggestions) {
-            alphabetSuggestion.setIsHistory(false);
+        for (NumberSuggestion numberSuggestion : sNumberSuggestions) {
+            numberSuggestion.setIsHistory(false);
         }
     }
 
     /* Render all Data Initially on the List NOT WORKING*/
-    public static void viewAllAlphabets(final Context context, final OnFindAlphabetListener listener) {
-        initAlphabetWrapperList(context);
+    public static void viewAllAlphabets(final Context context, final OnFindNumberListener listener) {
+        initNumberWrapperList(context);
         new Filter() {
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
-                List<AlphabetModel> suggestionList = new ArrayList<>();
-                List<AlphabetModel> alphaberList = loadJson(context);
+                List<NumberWrapper> suggestionList = new ArrayList<>();
+                List<NumberWrapper> alphaberList = loadJson(context);
 
-                for (AlphabetModel alphabet : alphaberList) {
+                for (NumberWrapper alphabet : alphaberList) {
                     suggestionList.add(alphabet);
                 }
 
@@ -159,7 +159,7 @@ public class AlphabetDataHelper {
 
                 if (listener != null) {
 //                    listener.onResults(loadJson(context));
-                    listener.onResults((List<AlphabetModel>) results.values);
+                    listener.onResults((List<NumberWrapper>) results.values);
                 }
             }
         };
@@ -172,9 +172,9 @@ public class AlphabetDataHelper {
 //        db.open();
 //        List<NumberSuggestion> alpha = db.getAlphabets();
 //        db.close();
-//        sAlphabetSuggestions = alpha;
+//        sNumberSuggestions = alpha;
         //Set History
-        /*sAlphabetSuggestions = new ArrayList<>(Collections.singletonList(
+        /*sNumberSuggestions = new ArrayList<>(Collections.singletonList(
                 new NumberSuggestion(query)));*/
         new Filter() {
 
@@ -187,11 +187,11 @@ public class AlphabetDataHelper {
                     e.printStackTrace();
                 }
 
-                AlphabetDataHelper.resetSuggestionsHistory();
-                List<AlphabetSuggestion> suggestionList = new ArrayList<>();
+                NumberDataHelper.resetSuggestionsHistory();
+                List<NumberSuggestion> suggestionList = new ArrayList<>();
                 if (!(constraint == null || constraint.length() == 0)) {
 
-                    for (AlphabetSuggestion suggestion : sAlphabetSuggestions) {
+                    for (NumberSuggestion suggestion : sNumberSuggestions) {
                         if (suggestion.getWord().toUpperCase()
                                 .startsWith(constraint.toString().toUpperCase())) {
 
@@ -204,9 +204,9 @@ public class AlphabetDataHelper {
                 }
 
                 FilterResults results = new FilterResults();
-                Collections.sort(suggestionList, new Comparator<AlphabetSuggestion>() {
+                Collections.sort(suggestionList, new Comparator<NumberSuggestion>() {
                     @Override
-                    public int compare(AlphabetSuggestion lhs, AlphabetSuggestion rhs) {
+                    public int compare(NumberSuggestion lhs, NumberSuggestion rhs) {
                         return lhs.getIsHistory() ? -1 : 0;
                     }
                 });
@@ -220,30 +220,30 @@ public class AlphabetDataHelper {
             protected void publishResults(CharSequence constraint, FilterResults results) {
 
                 if (listener != null) {
-                    listener.onResults((List<AlphabetSuggestion>) results.values);
+                    listener.onResults((List<NumberSuggestion>) results.values);
                 }
             }
         }.filter(query);
 
     }
 
-    public static void findAlphabets(Context context, String query, final OnFindAlphabetListener listener) {
-        initAlphabetWrapperList(context);
+    public static void findNumbers(Context context, String query, final OnFindNumberListener listener) {
+        initNumberWrapperList(context);
         filterData(context, query);
         //Set History
-        sAlphabetSuggestions = new ArrayList<>(Collections.singletonList(
-                new AlphabetSuggestion(query)));
+        sNumberSuggestions = new ArrayList<>(Collections.singletonList(
+                new NumberSuggestion(query)));
         new Filter() {
 
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
 
-                List<AlphabetModel> suggestionList = new ArrayList<>();
+                List<NumberWrapper> suggestionList = new ArrayList<>();
                 if (!(constraint == null || constraint.length() == 0)) {
 
-                    for (AlphabetModel alphabet : sAlphabetWrappers) {
+                    for (NumberWrapper alphabet : sAlphabetWrappers) {
                         Log.i("TAG BindViewHolder1: ", alphabet.toString());
-                        if (alphabet.getLetter().toUpperCase()
+                        if (alphabet.getNumber().toUpperCase()
                                 .startsWith(constraint.toString().toUpperCase())) {
 
                             suggestionList.add(alphabet);
@@ -263,7 +263,7 @@ public class AlphabetDataHelper {
             protected void publishResults(CharSequence constraint, FilterResults results) {
 
                 if (listener != null) {
-                    listener.onResults((List<AlphabetModel>) results.values);
+                    listener.onResults((List<NumberWrapper>) results.values);
                 }
             }
         }.filter(query);
@@ -278,22 +278,22 @@ public class AlphabetDataHelper {
         DatabaseAccess db;
         db = DatabaseAccess.getInstance(context.getApplicationContext());
         db.open();
-        sAlphabetWrappers = db.getAllDetailsByLetter(query);
+        sAlphabetWrappers = db.getAllDetailsByNumber(query);
 
         db.close();
     }
 
-    private static void initAlphabetWrapperList(Context context) {
+    private static void initNumberWrapperList(Context context) {
         if (sAlphabetWrappers.isEmpty()) {
             sAlphabetWrappers = loadJson(context);
         }
     }
 
-    private static List<AlphabetModel> loadJson(Context context) {
+    private static List<NumberWrapper> loadJson(Context context) {
         DatabaseAccess db;
         db = DatabaseAccess.getInstance(context.getApplicationContext());
         db.open();
-        List<AlphabetModel> alphabets = db.getAllAlphabets();
+        List<NumberWrapper> alphabets = db.getAllNumbers();
         db.close();
 
         return alphabets;
@@ -315,11 +315,11 @@ public class AlphabetDataHelper {
     }
 
 
-    public interface OnFindAlphabetListener {
-        void onResults(List<AlphabetModel> results);
+    public interface OnFindNumberListener {
+        void onResults(List<NumberWrapper> results);
     }
 
     public interface OnFindSuggestionsListener {
-        void onResults(List<AlphabetSuggestion> results);
+        void onResults(List<NumberSuggestion> results);
     }
 }

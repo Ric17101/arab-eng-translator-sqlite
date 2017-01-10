@@ -1,3 +1,19 @@
+/*
+ * Copyright (c) 2016 Richard C.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.eng.arab.translator.androidtranslator.activity;
 
 import android.app.Dialog;
@@ -33,14 +49,15 @@ import com.eng.arab.translator.androidtranslator.MainActivity;
 import com.eng.arab.translator.androidtranslator.R;
 import com.eng.arab.translator.androidtranslator.ShowDetailsAlphabet;
 import com.eng.arab.translator.androidtranslator.adapter.AlphabetListAdapter;
-import com.eng.arab.translator.androidtranslator.alphabet.AlphabetDataHelper;
-import com.eng.arab.translator.androidtranslator.alphabet.AlphabetModel;
-import com.eng.arab.translator.androidtranslator.alphabet.AlphabetSuggestion;
+import com.eng.arab.translator.androidtranslator.adapter.NumberListAdapter;
 import com.eng.arab.translator.androidtranslator.model.DatabaseAccess;
+import com.eng.arab.translator.androidtranslator.number.NumberDataHelper;
+import com.eng.arab.translator.androidtranslator.number.NumberSuggestion;
+import com.eng.arab.translator.androidtranslator.number.NumberWrapper;
 
 import java.util.List;
 
-public class AlphabetViewActivity extends AppCompatActivity implements AlphabetListAdapter.CallbackInterface, MediaPlayer.OnPreparedListener {
+public class NumberViewActivity extends AppCompatActivity implements NumberListAdapter.CallbackInterface, MediaPlayer.OnPreparedListener {
     public static final long FIND_SUGGESTION_SIMULATED_DELAY = 250;
     private static final int REQUEST_CODE = 1234;
     private static final String SHARED_PREF_SEARCH_TEXT = "SEARCH_TEXT";
@@ -49,7 +66,7 @@ public class AlphabetViewActivity extends AppCompatActivity implements AlphabetL
     private final int SHORT_DURATION = 1000;
     private FloatingSearchView mSearchView;
     private RecyclerView mSearchResultsList;
-    private AlphabetListAdapter mSearchResultsAdapter;
+    private NumberListAdapter mSearchResultsAdapter;
     private boolean mIsDarkSearchTheme = false;
     private String mLastQuery = "";
     //TTS object
@@ -59,17 +76,17 @@ public class AlphabetViewActivity extends AppCompatActivity implements AlphabetL
     private int position = 0;
     private MediaController mediaController;
 
-    public AlphabetViewActivity() {
+    public NumberViewActivity() {
         // Required empty pubclic constructor
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_alphabet_search);
+        setContentView(R.layout.fragment_number_search);
 
-        mSearchView = (FloatingSearchView) findViewById(R.id.floating_search_alphabet_view);
-        mSearchResultsList = (RecyclerView) findViewById(R.id.search_results_alphabet_list);
+        mSearchView = (FloatingSearchView) findViewById(R.id.floating_search_number_view);
+        mSearchResultsList = (RecyclerView) findViewById(R.id.search_results_number_list);
 
         setupFloatingSearch();
         setupResultsList();
@@ -79,7 +96,7 @@ public class AlphabetViewActivity extends AppCompatActivity implements AlphabetL
     }
 
     private void populateCardList() {
-        List<AlphabetModel> results = getAllData(getApplicationContext());
+        List<NumberWrapper> results = getAllData(getApplicationContext());
 //        mSearchResultsAdapter = new AlphabetListAdapter(results);
 //        mSearchResultsList.setAdapter(mSearchResultsAdapter);
 
@@ -93,17 +110,17 @@ public class AlphabetViewActivity extends AppCompatActivity implements AlphabetL
         Setting data of sAlphabetWrappers onSearch
         CALLED at AlphabetViewActivity
     */
-    public List<AlphabetModel> getAllData(Context context) {
+    public List<NumberWrapper> getAllData(Context context) {
         DatabaseAccess db;
         db = DatabaseAccess.getInstance(context.getApplicationContext());
         db.open();
-        List<AlphabetModel> list = db.getAllDetailsOfLetters();
+        List<NumberWrapper> list = db.getAllDetailsOfNumbers();
         db.close();
         return list;
     }
 
     public void showDetails(View v) {
-        startActivity(new Intent(AlphabetViewActivity.this, ShowDetailsAlphabet.class)
+        startActivity(new Intent(NumberViewActivity.this, ShowDetailsAlphabet.class)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
         overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);
     }
@@ -153,11 +170,11 @@ public class AlphabetViewActivity extends AppCompatActivity implements AlphabetL
 
                     //simulates a query call to a data source
                     //with a new query.
-                    AlphabetDataHelper.findSuggestions(getApplicationContext(), newQuery, 5,
-                            FIND_SUGGESTION_SIMULATED_DELAY, new AlphabetDataHelper.OnFindSuggestionsListener() {
+                    NumberDataHelper.findSuggestions(getApplicationContext(), newQuery, 5,
+                            FIND_SUGGESTION_SIMULATED_DELAY, new NumberDataHelper.OnFindSuggestionsListener() {
 
                                 @Override
-                                public void onResults(List<AlphabetSuggestion> results) {
+                                public void onResults(List<NumberSuggestion> results) {
 
                                     //this will swap the data and
                                     //render the collapse/expand animations as necessary
@@ -178,12 +195,12 @@ public class AlphabetViewActivity extends AppCompatActivity implements AlphabetL
             @Override
             public void onSuggestionClicked(final SearchSuggestion searchSuggestion) {
 
-                AlphabetSuggestion alphabetSuggestion = (AlphabetSuggestion) searchSuggestion;
-                AlphabetDataHelper.findAlphabets(getApplicationContext(), alphabetSuggestion.getWord(),
-                        new AlphabetDataHelper.OnFindAlphabetListener() {
+                NumberSuggestion numberSuggestion = (NumberSuggestion) searchSuggestion;
+                NumberDataHelper.findNumbers(getApplicationContext(), numberSuggestion.getWord(),
+                        new NumberDataHelper.OnFindNumberListener() {
 
                             @Override
-                            public void onResults(List<AlphabetModel> results) {
+                            public void onResults(List<NumberWrapper> results) {
                                 mSearchResultsAdapter.swapData(results);
                             }
 
@@ -197,11 +214,11 @@ public class AlphabetViewActivity extends AppCompatActivity implements AlphabetL
             public void onSearchAction(String query) {
                 mLastQuery = query;
 
-                AlphabetDataHelper.findAlphabets(getApplicationContext(), query,
-                        new AlphabetDataHelper.OnFindAlphabetListener() {
+                NumberDataHelper.findNumbers(getApplicationContext(), query,
+                        new NumberDataHelper.OnFindNumberListener() {
 
                             @Override
-                            public void onResults(List<AlphabetModel> results) {
+                            public void onResults(List<NumberWrapper> results) {
                                 mSearchResultsAdapter.swapData(results);
                             }
 
@@ -217,7 +234,7 @@ public class AlphabetViewActivity extends AppCompatActivity implements AlphabetL
                 //show suggestions when search bar gains focus (typically history suggestions)
 //                NumberDataHelper cdh = new NumberDataHelper();
 //                cdh.setContext(getApplicationContext());
-                mSearchView.swapSuggestions(AlphabetDataHelper.getHistory(getApplicationContext(), 5));
+                mSearchView.swapSuggestions(NumberDataHelper.getHistory(getApplicationContext(), 5));
 
                 Log.d(TAG, "onFocus()");
             }
@@ -281,7 +298,7 @@ public class AlphabetViewActivity extends AppCompatActivity implements AlphabetL
         mSearchView.setOnHomeActionClickListener(new FloatingSearchView.OnHomeActionClickListener() {
             @Override
             public void onHomeClicked() {
-                startActivity(new Intent(AlphabetViewActivity.this, MainActivity.class)
+                startActivity(new Intent(NumberViewActivity.this, MainActivity.class)
                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                 overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);
                 Log.d(TAG, "onHomeClicked()");
@@ -303,12 +320,12 @@ public class AlphabetViewActivity extends AppCompatActivity implements AlphabetL
             @Override
             public void onBindSuggestion(View suggestionView, ImageView leftIcon,
                                          TextView textView, SearchSuggestion item, int itemPosition) {
-                AlphabetSuggestion alphabetSuggestion = (AlphabetSuggestion) item;
+                NumberSuggestion numberSuggestion = (NumberSuggestion) item;
 
                 String textColor = mIsDarkSearchTheme ? "#ffffff" : "#000000";
                 String textLight = mIsDarkSearchTheme ? "#bfbfbf" : "#787878";
 
-                if (alphabetSuggestion.getIsHistory()) {
+                if (numberSuggestion.getIsHistory()) {
                     leftIcon.setImageDrawable(ResourcesCompat.getDrawable(getResources(),
                             R.drawable.ic_history_black_24dp, null));
 
@@ -325,7 +342,7 @@ public class AlphabetViewActivity extends AppCompatActivity implements AlphabetL
                 }
 
                 textView.setTextColor(Color.parseColor(textColor));
-                String text = alphabetSuggestion.getWord()
+                String text = numberSuggestion.getWord()
                         .replaceFirst(mSearchView.getQuery(),
                                 "<font color=\"" + textLight + "\">" + mSearchView.getQuery() + "</font>");
                 textView.setText(Html.fromHtml(text));
@@ -369,9 +386,9 @@ public class AlphabetViewActivity extends AppCompatActivity implements AlphabetL
 
                 if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
                     System.out.println("I'm in onActivityResult");
-                    _speaker = new Speaker(getApplicationContext());
-                    ImageButton buttonSpeakKoreanAlphabet = (ImageButton) findViewById(R.id.buttonSpeakKorean_alphabet);
-                    buttonSpeakKoreanAlphabet.setClickable(true);
+                   /* _speaker = new Speaker(getApplicationContext());
+                    ImageButton buttonSpeakArabicNumber = (ImageButton) findViewById(R.id.buttonSpeakKorean_alphabet);
+                    buttonSpeakArabicNumber.setClickable(true);*/
                 } else {
                     Intent install = new Intent();
                     install.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
@@ -394,7 +411,7 @@ public class AlphabetViewActivity extends AppCompatActivity implements AlphabetL
      * @param alpha    - the text to pass back
      */
     @Override
-    public void onHandleSelection(int position, AlphabetModel alpha, int mode) {
+    public void onHandleSelection(int position, NumberWrapper alpha, int mode) {
 
         //Toast.makeText(this, "Selected item in list "+ position + " with text "+ alpha, Toast.LENGTH_SHORT).show();
 
@@ -404,10 +421,10 @@ public class AlphabetViewActivity extends AppCompatActivity implements AlphabetL
         secondActivity.putExtra("Position", position);
         startActivityForResult(secondActivity, MY_REQUEST);*/
         switch (mode) {
-            case 1 :
+            case 1:
                 _speaker.speak(alpha.getExample());
                 break;
-            case 2 :
+            case 2:
                 displayDialog(alpha.getVideoFileName());
                 break;
         }
@@ -443,7 +460,7 @@ public class AlphabetViewActivity extends AppCompatActivity implements AlphabetL
             /* TEST if RAW file doesn't exist then do nothing*/
         } else {
             final Dialog dialog = new Dialog(this, android.R.style.Theme_Translucent_NoTitleBar);
-            dialog.setContentView(R.layout.alphabet_video_view);
+            dialog.setContentView(R.layout.number_video_view);
             dialog.setCancelable(false);
             dialog.setCanceledOnTouchOutside(true);
 
@@ -454,23 +471,20 @@ public class AlphabetViewActivity extends AppCompatActivity implements AlphabetL
 
             FrameLayout fl = (FrameLayout) dialog.findViewById(R.id.VideoFrameLayout);
             ImageButton imageButtonClose = (ImageButton) fl.findViewById(R.id.imageButtonClose);
-            imageButtonClose.setOnClickListener(new View.OnClickListener()
-            {
-                  @Override
-                  public void onClick(View v) {
-                      //dialog.dismiss();
-                      if (v.getId() == R.id.imageButtonClose)
-                      {
-                          dialog.dismiss();
-                      }
-                  }
-                  // Perform button logic
+            imageButtonClose.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //dialog.dismiss();
+                    if (v.getId() == R.id.imageButtonClose) {
+                        dialog.dismiss();
+                    }
+                }
+                // Perform button logic
             });
 
             // Set the media controller buttons
-            if (mediaController == null)
-            {
-                mediaController = new MediaController(AlphabetViewActivity.this);
+            if (mediaController == null) {
+                mediaController = new MediaController(NumberViewActivity.this);
 
                 // Set the videoView that acts as the anchor for the MediaController.
                 mediaController.setAnchorView(mVideoView);
@@ -505,7 +519,7 @@ public class AlphabetViewActivity extends AppCompatActivity implements AlphabetL
     }
 
     public void setupResultsList() {
-        mSearchResultsAdapter = new AlphabetListAdapter(this);
+        mSearchResultsAdapter = new NumberListAdapter(this);
         mSearchResultsList.setAdapter(mSearchResultsAdapter);
         mSearchResultsList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
     }
@@ -519,6 +533,7 @@ public class AlphabetViewActivity extends AppCompatActivity implements AlphabetL
             mediaController.show();
         }
     }
+
     /* VIDEO */
     // Find ID corresponding to the name of the resource (in the directory raw).
     public int getRawResIdByName(String resName) {

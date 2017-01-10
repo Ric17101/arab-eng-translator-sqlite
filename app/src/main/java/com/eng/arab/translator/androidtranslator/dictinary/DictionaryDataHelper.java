@@ -14,22 +14,6 @@
  * limitations under the License.
  */
 
-/*
- * Copyright (c) 2016 Richard C.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.eng.arab.translator.androidtranslator.dictinary;
 
 import android.content.Context;
@@ -46,16 +30,8 @@ import java.util.List;
 public class DictionaryDataHelper {
 
     private static DatabaseAccess db;
-    private static List<DictionaryModel> sDictionaryWrappers = new ArrayList<DictionaryModel>();
+    private static List<DictionaryWrapper> sDictionaryWrappers = new ArrayList<DictionaryWrapper>();
     private static List<DictionarySuggestion> sDictionarySuggestions = null;
-
-    public interface OnFindWordListener {
-        void onResults(List<DictionaryModel> results);
-    }
-
-    public interface OnFindSuggestionsListener {
-        void onResults(List<DictionarySuggestion> results);
-    }
 
     public static List<DictionarySuggestion> getHistory(Context context, int count) {
         List<DictionarySuggestion> suggestionList = new ArrayList<>();
@@ -90,10 +66,10 @@ public class DictionaryDataHelper {
         new Filter() {
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
-                List<DictionaryModel> suggestionList = new ArrayList<>();
-                List<DictionaryModel> wordList = loadJson(context);
+                List<DictionaryWrapper> suggestionList = new ArrayList<>();
+                List<DictionaryWrapper> wordList = loadJson(context);
 
-                for (DictionaryModel word : wordList) {
+                for (DictionaryWrapper word : wordList) {
                     suggestionList.add(word);
                 }
 
@@ -109,12 +85,11 @@ public class DictionaryDataHelper {
 
                 if (listener != null) {
 //                    listener.onResults(loadJson(context));
-                    listener.onResults((List<DictionaryModel>) results.values);
+                    listener.onResults((List<DictionaryWrapper>) results.values);
                 }
             }
         };
     }
-
 
     public static void findSuggestions(Context context, String query, final int limit, final long simulatedDelay,
                                        final OnFindSuggestionsListener listener) {
@@ -172,7 +147,6 @@ public class DictionaryDataHelper {
 
     }
 
-
     public static void findWords(Context context, String query, final OnFindWordListener listener) {
         initDictionaryWrapperList(context);
         filterData(context, query);
@@ -184,10 +158,10 @@ public class DictionaryDataHelper {
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
 
-                List<DictionaryModel> suggestionList = new ArrayList<>();
+                List<DictionaryWrapper> suggestionList = new ArrayList<>();
                 if (!(constraint == null || constraint.length() == 0)) {
 
-                    for (DictionaryModel word : sDictionaryWrappers) {
+                    for (DictionaryWrapper word : sDictionaryWrappers) {
                         if (word.getArabic()/*.toUpperCase()*/
                                 .startsWith(constraint.toString()/*.toUpperCase()*/)) {
 
@@ -208,7 +182,7 @@ public class DictionaryDataHelper {
             protected void publishResults(CharSequence constraint, FilterResults results) {
 
                 if (listener != null) {
-                    listener.onResults((List<DictionaryModel>) results.values);
+                    listener.onResults((List<DictionaryWrapper>) results.values);
                 }
             }
         }.filter(query);
@@ -234,13 +208,21 @@ public class DictionaryDataHelper {
         }
     }
 
-    private static List<DictionaryModel> loadJson(Context context) {
+    private static List<DictionaryWrapper> loadJson(Context context) {
         DatabaseAccess db;
         db = DatabaseAccess.getInstance(context.getApplicationContext());
         db.open();
-        List<DictionaryModel> words = db.getAllDictionary();
+        List<DictionaryWrapper> words = db.getAllDictionary();
         db.close();
 
         return words;
+    }
+
+    public interface OnFindWordListener {
+        void onResults(List<DictionaryWrapper> results);
+    }
+
+    public interface OnFindSuggestionsListener {
+        void onResults(List<DictionarySuggestion> results);
     }
 }

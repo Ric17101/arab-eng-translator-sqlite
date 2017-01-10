@@ -33,6 +33,7 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.eng.arab.translator.androidtranslator.activity.AlphabetViewActivity;
 import com.eng.arab.translator.androidtranslator.activity.DictionaryViewActivity;
+import com.eng.arab.translator.androidtranslator.activity.NumberViewActivity;
 import com.eng.arab.translator.androidtranslator.translate.TranslateViewActivity;
 
 import java.util.Locale;
@@ -162,6 +163,12 @@ public class MainActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.enter, R.anim.exit);
     }
 
+    public void numberFragment() {
+        Intent i = new Intent(MainActivity.this, NumberViewActivity.class);
+        startActivity(i);
+        overridePendingTransition(R.anim.enter, R.anim.exit);
+    }
+
     public void monthFragment() {
 
     }
@@ -215,6 +222,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 alphabetFragment();
+            }
+        });
+        LinearLayout cv_numbers = (LinearLayout) view.findViewById(R.id.cv_number);
+        cv_numbers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                numberFragment();
             }
         });
 //        LinearLayout cv_months = (LinearLayout) view.findViewById(R.id.cv_month);
