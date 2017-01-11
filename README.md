@@ -8,7 +8,7 @@
  - Material Design
 
 [Android Translator](https://github.com/Ric17101/arab-eng-translator-sqlite) is an Android App for the people who wants to learn new language languages for free.
-[![Get it on Google Play](https://github.com/Ric17101/arab-eng-translator-sqlite/blob/master/app/src/main/res/drawable/ic_mse.png)](https://play.google.com/store/apps/details?id=com.eng.arab.tranlator.androidtranslator)
+[Get it on Google Play](https://play.google.com/store/apps/details?id=com.eng.arab.tranlator.androidtranslator)
 
 License
 -------
