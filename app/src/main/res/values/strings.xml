@@ -17,7 +17,7 @@
   -->
 
 <resources>
-
+    <string name="banner_ad_unit_id">ca-app-pub-5101196187022941/3594138110</string>
     <string name="app_name">Anrdoid Translator</string>
     <string name="settings">Settings</string>
     <string name="word">Translation Details</string>

@@ -35,6 +35,9 @@ import com.eng.arab.translator.androidtranslator.activity.AlphabetViewActivity;
 import com.eng.arab.translator.androidtranslator.activity.DictionaryViewActivity;
 import com.eng.arab.translator.androidtranslator.activity.NumberViewActivity;
 import com.eng.arab.translator.androidtranslator.translate.TranslateViewActivity;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 
 import java.util.Locale;
 
@@ -47,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     private Spinner actionBarSpinner;
 
     private LinearLayout srcContent;
-
+    private AdView mAdView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +62,15 @@ public class MainActivity extends AppCompatActivity {
         // Set Build Version Below
         TextView textViewVersion = (TextView) findViewById(R.id.textViewVersion);
         textViewVersion.setText("V" + VERSION);
+
+        adModSetUp();
+    }
+
+    private void adModSetUp() {
+        MobileAds.initialize(getApplicationContext(), getResources().getString(R.string.banner_ad_unit_id));
+        mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
     }
 
     @Override
