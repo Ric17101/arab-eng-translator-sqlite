@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
@@ -75,7 +76,7 @@ public class AlphabetViewActivity extends AppCompatActivity implements AlphabetL
         setupResultsList();
 
         populateCardList();
-        checkTTS();
+        new TTSTask().execute("");
     }
 
     private void populateCardList() {
@@ -344,9 +345,17 @@ public class AlphabetViewActivity extends AppCompatActivity implements AlphabetL
     }
 
     @Override
+    protected void onStop() {
+        super.onStop();
+        if (_speaker != null)
+            _speaker.stop();
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
-//        _speaker.destroy();
+        if (_speaker != null)
+            _speaker.destroy();
     }
 
     /*
@@ -439,6 +448,7 @@ public class AlphabetViewActivity extends AppCompatActivity implements AlphabetL
         }
     * */
     public void displayDialog(String vid) {
+        vid = "alphabet_" + vid; // Concatenated from raw folder
         if (getResources().getIdentifier(vid, "raw", getPackageName()) == 0) {
             /* TEST if RAW file doesn't exist then do nothing*/
         } else {
@@ -552,5 +562,26 @@ public class AlphabetViewActivity extends AppCompatActivity implements AlphabetL
         // Get saved position.
         position = savedInstanceState.getInt("CurrentPosition");
         mVideoView.seekTo(position);
+    }
+
+    private class TTSTask extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+            checkTTS();
+            return "Executed";
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+        }
+
+        @Override
+        protected void onPreExecute() {
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+        }
     }
 }

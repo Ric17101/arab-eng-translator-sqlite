@@ -30,8 +30,8 @@ public class DictionaryWrapper implements Parcelable {
 
 	protected DictionaryWrapper(Parcel in) {
 		_id = in.readInt();
-		_english = in.readString();
 		_arabic = in.readString();
+		_english = in.readString();
 		_type = in.readString();
 		_definition = in.readString();
 		_pronunciation = in.readString();

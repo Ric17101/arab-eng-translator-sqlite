@@ -1,62 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!--
-  ~ Copyright (c) 2016 Richard C.
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~ You may obtain a copy of the License at
-  ~
-  ~     http://www.apache.org/licenses/LICENSE-2.0
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  -->
-
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <PreferenceCategory
-        android:title="@string/pref_header_general"
-        android:key="pref_key_general">
+        android:key="pref_key_general"
+        android:title="@string/pref_header_general">
 
         <ListPreference
             android:key="pref_key_display_language"
-            android:title="@string/pref_title_display_language"
-            android:negativeButtonText="@string/cancel_button" />
+            android:negativeButtonText="@string/cancel_button"
+            android:title="@string/pref_title_display_language" />
 
         <CheckBoxPreference
+            android:defaultValue="false"
             android:key="pref_key_beta_packages"
             android:summary="@string/pref_description_beta_packages"
-            android:title="@string/pref_title_beta_packages"
-            android:defaultValue="false" />
+            android:title="@string/pref_title_beta_packages" />
         
         <CheckBoxPreference
+            android:defaultValue="true"
             android:key="pref_key_mark_unknown"
             android:summary="@string/pref_description_mark_unknown"
-            android:title="@string/pref_title_mark_unknown"
-            android:defaultValue="true" />
+            android:title="@string/pref_title_mark_unknown" />
 
         <CheckBoxPreference
+            android:defaultValue="true"
             android:key="pref_key_auto_tts"
             android:summary="@string/pref_description_auto_tts"
-            android:title="@string/pref_title_auto_tts"
-            android:defaultValue="true" />
+            android:title="@string/pref_title_auto_tts" />
 
     </PreferenceCategory>
 
 
     <PreferenceCategory
-        android:title="@string/pref_header_updates"
-        android:key="pref_key_updates">
+        android:key="pref_key_updates"
+        android:title="@string/pref_header_updates">
         
         <CheckBoxPreference
+            android:defaultValue="true"
             android:key="pref_key_autocheck_updates"
             android:summary="@string/pref_description_autocheck_updates"
-            android:title="@string/pref_title_autocheck_updates"
-            android:defaultValue="true" />
+            android:title="@string/pref_title_autocheck_updates" />
         
         <Preference
             android:key="pref_key_check_updates"
@@ -67,20 +51,20 @@
 
 
     <PreferenceCategory
-        android:title="@string/pref_header_advanced"
-        android:key="pref_key_advanced">
+        android:key="pref_key_advanced"
+        android:title="@string/pref_header_advanced">
 
         <CheckBoxPreference
+            android:defaultValue="true"
             android:key="pref_key_external_storage"
             android:summary="@string/pref_description_external_storage"
-            android:title="@string/pref_title_external_storage"
-            android:defaultValue="true" />
+            android:title="@string/pref_title_external_storage" />
 
         <CheckBoxPreference
+            android:defaultValue="true"
             android:key="pref_key_signature_verification"
             android:summary="@string/pref_description_signature_verification"
-            android:title="@string/pref_title_signature_verification"
-            android:defaultValue="true" />
+            android:title="@string/pref_title_signature_verification" />
 
     </PreferenceCategory>
 
@@ -99,8 +83,8 @@
     
     
     <PreferenceCategory
-        android:title="@string/pref_header_about"
-        android:key="pref_key_about">
+        android:key="pref_key_about"
+        android:title="@string/pref_header_about">
 
         <Preference
             android:key="pref_key_licenses"

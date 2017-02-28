@@ -45,7 +45,6 @@ public class ShowDetailsAlphabet extends AppCompatActivity implements OnClickLis
 
     private TextView trg_text_details;
     private TextView textViewKorean;
-    private TextView textViewPronunciation;
     private TextView textViewWordType;
     private TextView textViewDefinitions;
     private TextView textViewEnglish;
@@ -126,7 +125,6 @@ public class ShowDetailsAlphabet extends AppCompatActivity implements OnClickLis
         TextToSpeak = alpha.get(0).getPronunciation();
 
         textViewKorean = (TextView) findViewById(R.id.textViewKorean_alphabet);
-        textViewPronunciation = (TextView) findViewById(R.id.textViewPronunciation_alphabet);
         textViewWordType = (TextView) findViewById(R.id.textViewWordType_alphabet);
         textViewDefinitions = (TextView) findViewById(R.id.textViewDefinitions_alphabet);
 
@@ -137,7 +135,6 @@ public class ShowDetailsAlphabet extends AppCompatActivity implements OnClickLis
 
         // Setting Details for the MONTH
         textViewKorean.setText(arabic_word);
-        textViewPronunciation.setText("\\" + alpha.get(0).getPronunciation() + "\\");
         textViewWordType.setText("letter");
         textViewDefinitions.setText(": " + alpha.get(0).getExample());
         //textViewEnglish.setText(": " + alpha.get(0).getExample());

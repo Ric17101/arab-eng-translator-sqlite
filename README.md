@@ -1,10 +1,14 @@
 # Arabic to English : Android Translator
 #### Project Name: arab-eng-translator-sqlite ####
  - Translator using SQLite as Database
- - applied recyclerView and cardView
+ - Applied recyclerView and cardView
  - SQLite
  - TTS - TextToSpeech
  - Video Rendering
+ - Material Design
+
+[Android Translator](https://github.com/Ric17101/arab-eng-translator-sqlite) is an Android App for the people who wants to learn new language languages for free.
+[Get it on Google Play](https://play.google.com/store/apps/details?id=com.eng.arab.tranlator.androidtranslator)
 
 License
 -------

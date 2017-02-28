@@ -1,31 +1,17 @@
-/*
- * Copyright (c) 2016 Richard C.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.eng.arab.translator.androidtranslator.translate;
 
+import android.app.Application;
 import android.content.Context;
 import android.text.Html;
 import android.util.Log;
 
+import com.eng.arab.translator.androidtranslator.alphabet.AlphabetModel;
+import com.eng.arab.translator.androidtranslator.dictinary.DictionaryWrapper;
 import com.eng.arab.translator.androidtranslator.model.DatabaseAccess;
 import com.eng.arab.translator.androidtranslator.model.TranslateModel;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.StringTokenizer;
@@ -38,7 +24,7 @@ import java.util.StringTokenizer;
 public class TranslatorClass {
 
     private Context context;
-
+//    private Context context;
     /**
      * Test if First Character on the String is in Arabic Alphabet
      *
@@ -295,28 +281,29 @@ public class TranslatorClass {
     }
 
     public String arabicNumberFormatter2(String sentence){
-        return sentence
-                .replaceAll("١", "1")
-                .replaceAll("٢", "2")
-                .replaceAll("٣", "3")
-                .replaceAll("١", "4")
-                .replaceAll("٢", "5")
-                .replaceAll("٣", "6")
-                .replaceAll("١", "7")
-                .replaceAll("٢", "8")
-                .replaceAll("٣", "9")
-                .replaceAll("١", "0");
+        //java.lang.String.replaceAll()
+        return sentence.
+                replaceAll("٢", "1").
+                replaceAll("٢", "2").
+                replaceAll("٣", "3").
+                replaceAll("١", "4").
+                replaceAll("٢", "5").
+                replaceAll("٣", "6").
+                replaceAll("١", "7").
+                replaceAll("٢", "8").
+                replaceAll("٣", "9").
+                replaceAll("١", "0");
     }
 
     /**
      * Description:
-     * [^-?0-9]+
-     * + Between one and unlimited times, as many times as possible, giving back as needed
-     * -? One of the characters “-?”
-     * 0-9 A character in the range between “0” and “9”
+     *      [^-?0-9]+
+     *      + Between one and unlimited times, as many times as possible, giving back as needed
+     *      -? One of the characters “-?”
+     *      0-9 A character in the range between “0” and “9”
      * Sample sentence: "qwerty-1qwerty-2 455 f0gfg 4";
      * Output:
-     * [-1, -2, 455, 0, 4]
+     *      [-1, -2, 455, 0, 4]
      *
      * @param sentence
      * @return String[]
@@ -333,32 +320,110 @@ public class TranslatorClass {
 
     /******THIRD ATTEMPT******/
     public String searchWord3(String srcSenctence) {
-        String regex = "\\W+"; //(?<=\n)\b" // Regex for spaces to split
+        String regex = "\\W+"; // (?<=\n)\b" // Regex for spaces to split
         String numWord;
-        String withoutSpacesInTheBeginning = srcSenctence.trim();
+        String withoutSpacesInTheBeginning = srcSenctence;
         String[] sourceAStr = withoutSpacesInTheBeginning.split(regex);
         String[] newList = getArrayOfArrabic(sourceAStr);
 
-        for (int i = 0; i < sourceAStr.length; i++/*, inv--*/) // Replacing the Data by Value
+        int strLen = sourceAStr.length;
+        for (int i = 0; i < strLen; i++/*, inv--*/) // Replacing the Data by Value
         {
             if (srcSenctence.contains(sourceAStr[i])) // if src has data from string array, then replace
             {
-                srcSenctence = srcSenctence.replaceAll(sourceAStr[i], " " + newList[i] + " "); // add space for the converted words
-            }
+                //srcSenctence = srcSenctence.replaceAll(sourceAStr[i], " " + newList[i] + " "); // add space for the converted words
+                srcSenctence = srcSenctence.replaceFirst(sourceAStr[i], " " + newList[i] + " "); // add space for the converted words
+            } /*else { // Replace Per letter
+
+            }*/
 
             if (isNumber(sourceAStr[i])) { // If word is Interger then replace with WordNumber
-                numWord = NumberToWords.convert(Integer.parseInt(sourceAStr[i]));
-                srcSenctence = srcSenctence.replaceAll(sourceAStr[i], " " + numWord + " ");
+                numWord = NumberToWordsUtil.convert(Integer.parseInt(sourceAStr[i]));
+                srcSenctence = srcSenctence.replaceFirst(sourceAStr[i], " " + numWord + " ");
             }
         }
+
+        //if (getIfSourceTextIsAword(withoutSpacesInTheBeginning))
+        //    Log.d("ffff", newList[0].toString()); //return newList[newList.length-1];
         return srcSenctence.replace("  ", " "); // Replace the spaces with two to one space only
         //return srcSenctence.replaceAll("<font>","<font color='#EE0000'>");
+    }
+
+    public String replaceWordAndNumbersOrLetters(String srcSenctence) {
+        String regex = "\\W+";
+        String numWord;
+        String withoutSpacesInTheBeginning = srcSenctence;
+        String[] sourceAStr = withoutSpacesInTheBeginning.split(regex);
+        String[] newList = getArrayOfArrabic(sourceAStr);
+
+        int strLen = sourceAStr.length;
+        for (int i = 0; i < strLen; i++/*, inv--*/) // Replacing the Data by Value
+        {
+            if (srcSenctence.contains(sourceAStr[i])) // if src has data from string array, then replace
+            {
+                srcSenctence = srcSenctence.replaceFirst(sourceAStr[i], newList[i]);
+            } /*else { // Replace Per letter
+
+            }*/
+
+            if (isNumber(sourceAStr[i])) { // If word is Interger then replace with WordNumber
+                numWord = NumberToWordsUtil.convert(Integer.parseInt(sourceAStr[i]));
+                srcSenctence = srcSenctence.replace(sourceAStr[i], numWord);
+            }
+        }
+        return srcSenctence;
+    }
+
+    public String searchWordIfSourceIsWord(String srcSenctence) {
+        DatabaseAccess db = DatabaseAccess.getInstance(this.context);
+        db.open();
+
+        String[] words = srcSenctence.split("\\W+");
+        int size = words.length;
+        for (int i = 0; i < size; i++) {
+            db.open();
+            if (db.getDictionaryWordArabicToEnglishIfExist(words[i])) {
+                srcSenctence = srcSenctence.replace(words[i], db.getDictionaryEnglishWord(words[i]));
+            } else if (db.getOneWordArabicToEnglishIfExist(words[i])) {
+                srcSenctence = srcSenctence.replace(words[i], db.getOneSentenceWordArabicToEnglish(words[i]));
+            } else {
+                // translated.append(words[i] + " ");
+                srcSenctence = srcSenctence.replace(words[i], replaceWordAndNumbersOrLetters(words[i]));
+            }
+        }
+
+        db.close();
+        return srcSenctence;
+        //return translated.toString();
+    }
+
+
+    public String searchWordIfSourceIsWordWithSpaces(String srcSenctence) {
+        DatabaseAccess db = DatabaseAccess.getInstance(this.context);
+        db.open();
+
+        String[] words = srcSenctence.split("\\W+");
+        int size = words.length;
+        for (int i = 0; i < size; i++) {
+            db.open();
+            if (db.getDictionaryWordArabicToEnglishIfExist(words[i])) {
+                srcSenctence = srcSenctence.replace(words[i], db.getDictionaryEnglishWord(words[i]));
+            } else if (db.getOneWordArabicToEnglishIfExist(words[i])) {
+                srcSenctence = srcSenctence.replace(words[i], db.getOneSentenceWordArabicToEnglish(words[i]));
+            } else {
+                // translated.append(words[i] + " ");
+                srcSenctence = srcSenctence.replace(words[i], replaceWordAndNumbersOrLetters(words[i]));
+            }
+        }
+
+        db.close();
+        return srcSenctence;
     }
 
     /**
      * For Debugging Purposes to Display the Contents of Array
      */
-    String fileArrayToString(String[] f){
+    private String fileArrayToString(String[] f) {
         String output = "";
         String delimiter = "\n"; // Can be new line \n tab \t etc...
         for (int i = 0; i < f.length; i++) {
@@ -395,7 +460,6 @@ public class TranslatorClass {
             }
             newAString.append(" ");
         }
-        //Log.d("DBARAB",fileArrayToString(newAString.toString().split(" ")));
 
         db.close();
 
@@ -409,38 +473,51 @@ public class TranslatorClass {
 
         String[] newAString = new String[255];
         int continueWithSpaces = 0;
-        int counter = strList.length;
-        int flagInverse = 0;
+        int strLen = strList.length;
+
         //for (String str : strList) {
-        for (int i = 0; i < counter; i++) {
+        for (int i = 0; i < strLen; i++) {
             if (!isProbablyArabicOnFirstChar(strList[i]) && i == 0) { // If first Character is not Arabic then do nothing
                 newAString[i] = strList[i];
                 continue;
             }
 
+            db.open();
             TranslateModel tm = db.getTranslationToArabic(strList[i]);
             continueWithSpaces = tm.getLength();
             if (continueWithSpaces > 0) { // Continue and skip the translation if and only if data has spaces
                 continueWithSpaces -= continueWithSpaces;
                 newAString[i] = db.getTranslationToArabic(strList[i - continueWithSpaces]).getEnglish();
-                flagInverse = 1;
             } else {
-                if (flagInverse == 0) { // NOT WORKING YET
-                    if (tm.getEnglish() == null) {
-                        // if query has no result then retain the string
-                        // Should not execute getTRansation... here only once is enough
-                        //newAString.append("<font>[" + str + "]</font>");
-                        newAString[i] = strList[i];
-                    } else {
-                        newAString[i] = tm.getEnglish(); // Or can be store to an array for less query on DB side
-                    }
+                if (getIfSourceTextIsAword2(strList[i])) {
+                    /** Another test of the esult from tm, if above has no results */
+                    db.open();
+                    newAString[i] = db.getDictionaryArabicToEnglish(strList[i]);
+                    Log.d("getArrayOfArrabic", "getIfSourceTextIsAword2 " + newAString[i]);
+                    if (newAString[i] == null)
+                        newAString[i] = db.getOneSentenceWordArabicToEnglish(strList[i]);
+                } else if (tm.getEnglish() == null /*|| !getIfSourceTextIsAword2(strList[i])*/) { /** IF WORD is not on the WORD/ SENTENE WORD then Translate per letter */
+//                    String cleanWord = new ReplaceSpecialArabicCharacUtil().removeSpecialArabicCharactersClean(strList[i]);
+//                    newAString[i] = getArabicPerLetter(cleanWord)[0]; /** Get only the first letter if only if it has '-' from DB*/
+                    //newAString[i] = strList[i];
+                    /** LETTER PER LETTER TRANSLATION */
+                    newAString[i] = getArabicPerLetter(strList[i]);
+                    Log.d("getArrayOfArrabic", "null");
                 } else {
-                    newAString[i] = "";
+                    newAString[i] = tm.getEnglish(); // Or can be store to an array for less query on DB side
+                    Log.d("getArrayOfArrabic", "else");
                 }
-                flagInverse = 0;
+
             }
+
+            /*db.open();
+            if (!db.getWordArabicToEnglishIfExist2(strList[i])) {
+                db.open();
+                newAString[i] = getArabicPerLetter(strList[i]);
+                Log.d("getArrayOfArrabic", "getIfSourceTextIsAword2asd");
+            }*/
         }
-        //Log.d("DBARAB", fileArrayToString(newAString.toString().split(" ")));
+        Log.d("DBARAB", fileArrayToString(newAString.toString().split(" ")));
 
         db.close();
 
@@ -448,78 +525,390 @@ public class TranslatorClass {
     }
 
     /**
-     * NOT YET USED
+     * Translator Suggestions
+     *
      */
-    public class ReplaceSpecialArabicCharacUtil {
-        public List<Integer> getValidAsciiValues() {
-            List<Integer> validAsciiValues = new ArrayList<Integer>();
-            for (int i = 193; i <= 218; i++) {
-                validAsciiValues.add(i);
-            }
-            for (int i = 225; i <= 234; i++) {
-                validAsciiValues.add(i);
-            }
+    public String searchWordSuggestion(String srcSenctence) {
+        String regex = "\\W+"; //(?<=\n)\b" // Regex for spaces to split
+        String numWord;
+        String withoutSpacesInTheBeginning = srcSenctence.trim();
+        String[] sourceAStr = withoutSpacesInTheBeginning.split(regex);
+        String[] newList = getArrayOfArrabic(sourceAStr);
 
-            validAsciiValues.add(32);
-            validAsciiValues.add(38);
-            validAsciiValues.add(40);
-            validAsciiValues.add(41);
-            validAsciiValues.add(47);
-            validAsciiValues.add(247);
-            validAsciiValues.add(248);
-            validAsciiValues.add(249);
-            validAsciiValues.add(250);
-
-            return validAsciiValues;
-        }
-
-        public void removeSpecialArabicCharacters(String name_a) {
-
-            //replace_mult_spaces(name_a)
-            int stringLenth = name_a.length();
-            int pos = 0; //the Java index is 0-based (starts from 0)
-            while (pos < stringLenth) {
-                char nextChar = name_a.substring(pos, pos + 1).toCharArray()[0];
-                int asciiValue = (int) nextChar;
-                if (getValidAsciiValues().contains(asciiValue)) {
-                    pos++;
-                } else {
-                    throw new AssertionError("The string contains invalid characters");
-                }
-            }
-            name_a = name_a.replaceAll("ې", " ې ");
-            if (name_a.substring(stringLenth).equals('ي')) {
-                name_a = name_a.substring(0, stringLenth - 2);
-            }
-            name_a = name_a.replaceAll(" ", "ه  ");
-            if (name_a.substring(stringLenth).equals("ة")) {
-                name_a = name_a.substring(0, stringLenth - 2);
+        for (int i = 0; i < sourceAStr.length; i++/*, inv--*/) // Replacing the Data by Value
+        {
+            if (srcSenctence.contains(sourceAStr[i])) // if src has data from string array, then replace
+            {
+                srcSenctence = srcSenctence.replaceAll(sourceAStr[i], " " + newList[i] + " "); // add space for the converted words
             }
 
-            name_a = name_a.replace('ا', 'أ');
-            name_a = name_a.replace('ا', 'إ');
-            name_a = name_a.replace('ا', 'آ');
-            name_a = name_a.replace((char) 250, 'ل');
-            name_a = name_a.replace((char) 247, 'ل');
-            name_a = name_a.replace((char) 248, 'ل');
-            name_a = name_a.replace((char) 249, 'ل');
-            name_a = name_a.replace((char) 63, 'ل');
-
-            name_a.replace(" ابن ", " بن ");
-            if (name_a.substring(0, 5).equals("'عبد ال")) {
-                name_a = name_a.substring(6);
-            }
-
-
-            name_a.replaceAll(" عبد ال", " عبدال");
-            if (name_a.substring(0, 3).equals("'ابن")) {
-                name_a = name_a.substring(4);
-            }
-            if (name_a.substring(-4).equals("ابن))")) {
-                name_a = name_a.substring(0, name_a.length() - 4);
+            if (isNumber(sourceAStr[i])) { // If word is Interger then replace with WordNumber
+                numWord = NumberToWordsUtil.convert(Integer.parseInt(sourceAStr[i]));
+                srcSenctence = srcSenctence.replaceAll(sourceAStr[i], " " + numWord + " ");
             }
         }
+        return srcSenctence.replace("  ", " ");
     }
+
+    /**
+     * Translator Suggestions
+     * Get Format Suggestion
+     */
+    public String[] getArrayOfArrabicSuggestion(String strList) {
+        DatabaseAccess db = DatabaseAccess.getInstance(this.context);
+        db.open();
+
+        //TranslateModel tm = db.getTranslationToArabic(strList[i]); // From Dictionary
+        // Get the Types and Store it on the String Array Delimited by '-'
+        List<SentenceFormatWrapper> sfw = db.getAllFormats(); // All formats
+
+        StringBuilder formats = new StringBuilder();
+        StringBuilder wordTypes = new StringBuilder();
+        int counter = sfw.size();
+        for (int i = 0; i < counter; i++) {
+            formats.append(sfw.get(i).getArabicFormat());
+            formats.append(" ");
+            //wordTypes.append(db.getTranslationToArabic(sfw.get(i).get());
+        }
+
+        String[] x = formats.toString().split(" ");
+        for (int i = 0; i < counter; i++) {
+            Log.d("TAGArray", "getArrayOfArrabicSuggestion: " + x[i]);
+        }
+
+        db.close();
+
+        return formats.toString().split("-");
+    }
+
+    public String[] getArabicSentence(String srcSentence) {
+        DatabaseAccess db = DatabaseAccess.getInstance(this.context);
+        db.open();
+        List<SentenceWrapper> osw = db.getOneSentenceToArabic(srcSentence); // All formats
+
+        StringBuilder formats = new StringBuilder();
+        int counter = osw.size();
+        for (int i = 0; i < counter; i++) {
+            formats.append(osw.get(i).getArabicSentence());
+            formats.append("-");
+        }
+
+        String[] x = formats.toString().split("-");
+        for (int i = 0; i < counter; i++) {
+            Log.d("TAGArray", "getArabicSentence: " + x[i]);
+        }
+
+        db.close();
+
+        return formats.toString().split("-");
+    }
+
+    public String getArabicPerLetter(String srcWord) {
+        DatabaseAccess db = DatabaseAccess.getInstance(this.context);
+        db.open();
+
+        StringBuilder formats = new StringBuilder();
+        for (int j = 0; j < srcWord.length(); j++) {
+
+            List<AlphabetModel> osw = db.getArabicLetterToEnglish(srcWord.charAt(j) + ""); // All formats
+
+            int strLen = osw.size();
+            for (int i = 0; i < strLen; i++) {
+                if (osw.get(i).getPronunciation().contains("-")) {
+                    formats.append(osw.get(i).getPronunciation().split("-")[1]);
+                } else {
+                    formats.append(osw.get(i).getPronunciation());
+                }
+                // formats.append("-");
+            }
+        }
+
+        String[] x = formats.toString().split("-");
+        Log.d("getArabicPerLetter", "Arabic Letter to English: " + x.toString());
+
+        db.close();
+
+        return formats.toString();
+    }
+
+    public String translateArabicSentenceToEnglishWithWords(String srcSentence) {
+        DatabaseAccess db = DatabaseAccess.getInstance(this.context);
+        db.open();
+        List<SentenceWrapper> allSentence = db.getAllArabicToEnglishSentences(); // All formats
+
+        int counter = allSentence.size();
+        for (int i = 0; i < counter; i++) {
+            if (srcSentence.contains(allSentence.get(i).getArabicSentence())) { // OR use  this // if (srcSentence.trim().matches(".*"+ allSentence.get(i).getArabicSentence().trim() +".*")) {
+                srcSentence = srcSentence.replaceAll(allSentence.get(i).getArabicSentence(), allSentence.get(i).getEnglishSentence());
+                // break;
+            }
+        }
+
+        db.close();
+
+        return srcSentence;
+    }
+
+    public String translateArabicSentenceToEnglishWithSpaces(String srcSentence) {
+        DatabaseAccess db = DatabaseAccess.getInstance(this.context);
+        db.open();
+        List<DictionaryWrapper> allWords = db.getAllArabicToEnglishWithArabic2Or3Spaces(); // All formats
+
+        int counter = allWords.size();
+        for (int i = 0; i < counter; i++) {
+            if (srcSentence.contains(allWords.get(i).getArabic())) {
+                srcSentence = srcSentence.replaceAll(allWords.get(i).getArabic(),
+                        allWords.get(i).getEnglish());
+                Log.d("SRCTENCE", "OK " + srcSentence);
+            }
+        }
+
+        db.close();
+
+        return srcSentence;
+    }
+
+    public List<SentenceWrapper> getArabicSentenceList(String srcSentence) {
+        DatabaseAccess db = DatabaseAccess.getInstance(this.context);
+        db.open();
+
+        List<SentenceWrapper> osw = db.getOneSentenceToArabic(srcSentence); // All formats
+
+        db.close();
+        return osw; //appendWordLetterSuggestionSpecialCase(osw);
+    }
+
+    /***
+     * TODO: APply this to alphaber/word/dictionary
+     *
+     * @param list
+     * @return
+     */
+    private List<SentenceWrapper> appendWordLetterSuggestionSpecialCase(List<SentenceWrapper> list) {
+        SentenceWrapper o = new SentenceWrapper();
+
+        int count = list.size();
+        for (int i = 0; i < count; i++) { /** LOOP THRU the suggestion and ADD another senter suggestion as per spcl cases*/
+            SentenceWrapper sw = list.get(i);
+            if (sw.getArabicSentence().contains("أ")) {
+                // e
+
+                sw.getEnglishSentence().replaceAll("e", "e");
+                list.add(sw);
+
+                sw.getEnglishSentence().replaceAll("o", "e");
+                list.add(sw);
+
+                sw.getEnglishSentence().replaceAll("i", "e");
+                list.add(sw);
+                // a
+
+                sw.getEnglishSentence().replaceAll("e", "a");
+                list.add(sw);
+
+                sw.getEnglishSentence().replaceAll("o", "a");
+                list.add(sw);
+
+                sw.getEnglishSentence().replaceAll("i", "a");
+                list.add(sw);
+                //o
+                sw.getEnglishSentence().replaceAll("a", "o");
+                list.add(sw);
+
+                sw.getEnglishSentence().replaceAll("e", "o");
+                list.add(sw);
+
+                sw.getEnglishSentence().replaceAll("i", "o");
+                list.add(sw);
+                //i
+                sw.getEnglishSentence().replaceAll("a", "i");
+                list.add(sw);
+
+                sw.getEnglishSentence().replaceAll("e", "i");
+                list.add(sw);
+
+                sw.getEnglishSentence().replaceAll("o", "i");
+                list.add(sw);
+            }
+
+            if (sw.getArabicSentence().contains("ب")) {
+                //b
+                sw.getEnglishSentence().replaceAll("v", "b");
+                list.add(sw);
+
+                sw.getEnglishSentence().replaceAll("p", "b");
+                list.add(sw);
+                //v
+                sw.getEnglishSentence().replaceAll("b", "v");
+                list.add(sw);
+
+                sw.getEnglishSentence().replaceAll("p", "v");
+                list.add(sw);
+                //p
+                sw.getEnglishSentence().replaceAll("b", "p");
+                list.add(sw);
+
+                sw.getEnglishSentence().replaceAll("v", "p");
+                list.add(sw);
+            }
+
+            if (sw.getArabicSentence().contains("ك")) {
+                //c
+                sw.getEnglishSentence().replaceAll("k", "c");
+                list.add(sw);
+                // k
+                sw.getEnglishSentence().replaceAll("c", "k");
+                list.add(sw);
+            }
+
+            if (sw.getArabicSentence().contains("ي")) {
+                // u
+                sw.getEnglishSentence().replaceAll("y", "u");
+                list.add(sw);
+                // y
+                sw.getEnglishSentence().replaceAll("u", "y");
+                list.add(sw);
+            }
+
+        }
+
+        o.setID(1);
+        list.add(o);
+        return list;
+    }
+
+    /**
+     * Arabic Format with dash '-'
+     *
+     * @return
+     */
+    public String[] getArrayOfArabicFormat() {
+        DatabaseAccess db = DatabaseAccess.getInstance(this.context);
+        db.open();
+
+        List<SentenceFormatWrapper> sfw = db.getAllFormats(); // All formats
+        StringBuilder formats = new StringBuilder();
+        int counter = sfw.size();
+        for (int i = 0; i < counter; i++) {
+            formats.append(sfw.get(i).getArabicFormat());
+            formats.append(" ");
+        }
+
+        db.close();
+
+        return formats.toString().split(" ");
+    }
+
+    /**
+     * English Format with dash '-'
+     *
+     * @return
+     */
+    public String[] getArrayOfEnglishFormat() {
+        DatabaseAccess db = DatabaseAccess.getInstance(this.context);
+        db.open();
+
+        List<SentenceFormatWrapper> sfw = db.getAllFormats(); // All formats
+        StringBuilder formats = new StringBuilder();
+        int counter = sfw.size();
+        for (int i = 0; i < counter; i++) {
+            formats.append(sfw.get(i).getEnglishFormat());
+            formats.append(" ");
+        }
+
+        db.close();
+
+        return formats.toString().split(" ");
+    }
+
+    public String getSentenceTranslationToEnglish(String sentenceArabic) {
+        DatabaseAccess db = DatabaseAccess.getInstance(this.context);
+        db.open();
+
+        String sfw = db.getOneSentenceArabicToEnglish(sentenceArabic);
+        db.close();
+
+        return sfw;
+    }
+
+    public boolean getIfSourceTextIsAword(String sentenceArabic) {
+        DatabaseAccess db = DatabaseAccess.getInstance(context);
+        db.open();
+
+        boolean sfw = db.getWordArabicToEnglishIfExist(sentenceArabic);
+        db.close();
+
+        return sfw;
+    }
+
+    public boolean getIfSourceTextIsAword2(String sentenceArabic) {
+        DatabaseAccess db = DatabaseAccess.getInstance(context);
+        db.open();
+
+        String[] sentence = sentenceArabic.split("\\W+");
+        boolean sfw = db.getWordArabicToEnglishIfExist2(sentence[0]);
+        if (!sfw) {
+            for (int x = 1; sentence.length > x; x++) {
+                sfw = db.getWordArabicToEnglishIfExist2(sentence[x]);
+                if (sfw)
+                    break;
+            }
+            Log.d("SFW", "getWordArabicToEnglishIfExist2 " + sfw);
+        }
+        db.close();
+
+        return sfw;
+    }
+
+    public boolean getIfSourceTextIsADictionaryWord(String sentenceArabic) {
+        DatabaseAccess db = DatabaseAccess.getInstance(context);
+        db.open();
+
+        boolean sfw = db.getDictionaryWordArabicToEnglishIfExist(sentenceArabic);
+        db.close();
+
+        return sfw;
+    }
+
+    public boolean getIfSourceTextIsASentenceOneWord(String sentenceArabic) {
+        DatabaseAccess db = DatabaseAccess.getInstance(context);
+        db.open();
+
+        boolean sfw = db.getOneWordArabicToEnglishIfExist(sentenceArabic);
+        db.close();
+
+        return sfw;
+    }
+
+    public boolean getIfSourceTextIsASentense(String sentenceArabic) {
+        DatabaseAccess db = DatabaseAccess.getInstance(context);
+        db.open();
+
+        boolean sfw = db.getSentenceArabicToEnglishIfExist(sentenceArabic);
+        db.close();
+
+        return sfw;
+    }
+
+    private String[] getArrayOfArrabicSentenceFormat(String[] strList) {
+        DatabaseAccess db = DatabaseAccess.getInstance(context);
+        db.open();
+
+        List<SentenceFormatWrapper> sfw = db.getAllFormats(); // All formats
+        StringBuilder formats = new StringBuilder();
+
+        int counter = strList.length - 1;
+        for (int i = 0; i < counter; i++) { // Get the Types and Store it on the String Array Delimited by '-'
+            formats.append(sfw.get(i).getArabicFormat());
+            formats.append("-");
+        }
+
+        db.close();
+
+        return formats.toString().split("-");
+    }
+
+
 
     /* PROCESS???
         1st arg of string

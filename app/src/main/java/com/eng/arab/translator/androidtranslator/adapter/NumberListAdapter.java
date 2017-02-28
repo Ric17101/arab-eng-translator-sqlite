@@ -1,19 +1,3 @@
-/*
- * Copyright (c) 2016 Richard C.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.eng.arab.translator.androidtranslator.adapter;
 
 import android.app.Activity;
@@ -97,7 +81,7 @@ public class NumberListAdapter extends RecyclerView.Adapter<NumberListAdapter.Vi
     public void onBindViewHolder(final NumberListAdapter.ViewHolder holder, final int position) {
         numberSuggestion = mDataSet.get(holder.getAdapterPosition());
         holder.mNumberName.setText(numberSuggestion.getNumber());
-        holder.mNumberValue.setText(numberSuggestion.getExample());
+        holder.mNumberValue.setText(numberSuggestion.getVideoFileName());
 //        Log.i("TAG BindViewHolder1: ", colorSuggestion.getLetter());
 //        int color = Color.parseColor(colorSuggestion.getHex());
         Log.d(LOG_TAG, "onBindViewHolder (" + ++counterOnBindViewHolder + ") = " + numberSuggestion.getExample());
@@ -105,7 +89,8 @@ public class NumberListAdapter extends RecyclerView.Adapter<NumberListAdapter.Vi
         holder.mNumberName.setTextColor(color);
         holder.mNumberValue.setTextColor(color);
         holder.textViewPronunciation.setText("\\" + numberSuggestion.getPronunciation() + "\\");
-        holder.textViewWordType.setText("letter");
+        holder.textViewNumberArabic.setText(numberSuggestion.getExample());
+        holder.textViewWordType.setText("number");
         //holder.buttonPlayVideo.
 
         if (mLastAnimatedItemPosition < position) {
@@ -176,6 +161,7 @@ public class NumberListAdapter extends RecyclerView.Adapter<NumberListAdapter.Vi
         public final View mTextContainer;
         public final TextView textViewPronunciation;
         public final TextView textViewWordType;
+        public final TextView textViewNumberArabic;
         //public final ImageButton buttonSpeakAlphabet;
         public final ImageButton buttonPlayVideo;
 
@@ -187,6 +173,7 @@ public class NumberListAdapter extends RecyclerView.Adapter<NumberListAdapter.Vi
             textViewPronunciation = (TextView) view.findViewById(R.id.textViewPronunciation_number);
             textViewWordType = (TextView) view.findViewById(R.id.textViewWordType_number);
             mTextContainer = view.findViewById(R.id.text_number_container);
+            textViewNumberArabic = (TextView) view.findViewById(R.id.number_arabic_value);
             /*buttonSpeakAlphabet = (ImageButton) view.findViewById(R.id.buttonSpeak_alphabet);
             buttonSpeakAlphabet.setOnClickListener(this);*/
             buttonPlayVideo = (ImageButton) view.findViewById(R.id.buttonPlayVideo_number);

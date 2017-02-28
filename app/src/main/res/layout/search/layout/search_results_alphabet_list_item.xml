@@ -4,9 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clickable="true"
+    card_view:cardCornerRadius="0dp"
     card_view:cardElevation="4dp"
-    card_view:cardUseCompatPadding="true"
-    card_view:cardCornerRadius="0dp">
+    card_view:cardUseCompatPadding="true">
 
     <LinearLayout
         android:id="@+id/text_aphabe_container"
@@ -40,25 +40,16 @@
 
                 <ImageButton
                     android:id="@+id/buttonPlayVideo_alphabet"
+                    android:layout_width="40dp"
+                    android:layout_height="match_parent"
                     android:layout_marginLeft="20dp"
                     android:layout_marginStart="20dp"
                     android:adjustViewBounds="true"
-                    android:padding="0dp"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/play_button"
                     android:background="?selectableItemBackgroundBorderless"
                     android:clickable="true"
-                    android:layout_height="match_parent"
-                    android:layout_width="40dp" />
-
-                <TextView
-                    android:id="@+id/textViewPronunciation_alphabet"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="-3dp"
-                    android:layout_weight="1"
-                    android:text="\\TextView\" />
+                    android:padding="0dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/play_button" />
 
             </LinearLayout>
 
@@ -75,10 +66,10 @@
                 android:id="@+id/textView7_alphabet"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="In English"
-                android:textColor="@android:color/holo_orange_light"
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="16dp"
+                android:text="In English"
+                android:textColor="@android:color/holo_orange_light"
                 android:textSize="14sp" />
 
             <LinearLayout
@@ -92,10 +83,10 @@
                 <TextView
                     android:id="@+id/alphabet_value"
                     style="@style/card_text"
-                    android:textSize="14sp"
                     android:text=": alphabet"
+                    android:textColor="@color/primary_black_dark"
                     android:textColorLink="@color/primary_black_dark"
-                    android:textColor="@color/primary_black_dark" />
+                    android:textSize="14sp" />
 
             </LinearLayout>
 

@@ -1,35 +1,3 @@
-/*
- * Copyright (c) 2016 Richard C.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-/*
- * Copyright (c) 2016 Richard C.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.eng.arab.translator.androidtranslator.dictinary;
 
 import android.os.Parcel;
@@ -40,6 +8,17 @@ import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
 
 public class DictionarySuggestion implements SearchSuggestion {
 
+    public static final Creator<DictionarySuggestion> CREATOR = new Creator<DictionarySuggestion>() {
+        @Override
+        public DictionarySuggestion createFromParcel(Parcel in) {
+            return new DictionarySuggestion(in);
+        }
+
+        @Override
+        public DictionarySuggestion[] newArray(int size) {
+            return new DictionarySuggestion[size];
+        }
+    };
     private String mDictionaryWord;
     private boolean mIsHistory = false;
 
@@ -53,30 +32,18 @@ public class DictionarySuggestion implements SearchSuggestion {
         this.mIsHistory = source.readInt() != 0;
     }
 
-    public void setIsHistory(boolean isHistory) {
-        this.mIsHistory = isHistory;
-    }
-
     public boolean getIsHistory() {
         return this.mIsHistory;
+    }
+
+    public void setIsHistory(boolean isHistory) {
+        this.mIsHistory = isHistory;
     }
 
     @Override
     public String getWord() {
         return mDictionaryWord;
     }
-
-    public static final Creator<DictionarySuggestion> CREATOR = new Creator<DictionarySuggestion>() {
-        @Override
-        public DictionarySuggestion createFromParcel(Parcel in) {
-            return new DictionarySuggestion(in);
-        }
-
-        @Override
-        public DictionarySuggestion[] newArray(int size) {
-            return new DictionarySuggestion[size];
-        }
-    };
 
     @Override
     public int describeContents() {

@@ -43,7 +43,6 @@ public class DictionaryViewActivity extends AppCompatActivity {
     private DictionaryListAdapter mSearchResultsAdapter;
 
     private boolean mIsDarkSearchTheme = false;
-
     private String mLastQuery = "";
 
     public DictionaryViewActivity() {
@@ -73,7 +72,7 @@ public class DictionaryViewActivity extends AppCompatActivity {
         mSearchResultsAdapter.swapData(results);
     }
 
-    /*
+    /**
         Setting data of sAlphabetWrappers onSearch
         CALLED at AlphabetViewActivity
     */
@@ -105,12 +104,12 @@ public class DictionaryViewActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);
     }
 
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
         overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

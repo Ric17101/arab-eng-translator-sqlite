@@ -1,19 +1,3 @@
-/*
- * Copyright (c) 2016 Richard C.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.eng.arab.translator.androidtranslator.translate;
 
 import java.text.DecimalFormat;
@@ -22,7 +6,7 @@ import java.text.DecimalFormat;
  * Created by Richard on 10/01/2017.
  */
 
-public class NumberToWords {
+public class NumberToWordsUtil {
 
     private static final String[] tensNames = {
             "",
@@ -60,7 +44,7 @@ public class NumberToWords {
             " nineteen"
     };
 
-    private NumberToWords() {
+    private NumberToWordsUtil() {
     }
 
     private static String convertLessThanOneThousand(int number) {
@@ -160,25 +144,25 @@ public class NumberToWords {
      * @param args
      */
     public static void main(String[] args) {
-        System.out.println("*** " + NumberToWords.convert(0));
-        System.out.println("*** " + NumberToWords.convert(1));
-        System.out.println("*** " + NumberToWords.convert(16));
-        System.out.println("*** " + NumberToWords.convert(100));
-        System.out.println("*** " + NumberToWords.convert(118));
-        System.out.println("*** " + NumberToWords.convert(200));
-        System.out.println("*** " + NumberToWords.convert(219));
-        System.out.println("*** " + NumberToWords.convert(800));
-        System.out.println("*** " + NumberToWords.convert(801));
-        System.out.println("*** " + NumberToWords.convert(1316));
-        System.out.println("*** " + NumberToWords.convert(1000000));
-        System.out.println("*** " + NumberToWords.convert(2000000));
-        System.out.println("*** " + NumberToWords.convert(3000200));
-        System.out.println("*** " + NumberToWords.convert(700000));
-        System.out.println("*** " + NumberToWords.convert(9000000));
-        System.out.println("*** " + NumberToWords.convert(9001000));
-        System.out.println("*** " + NumberToWords.convert(123456789));
-        System.out.println("*** " + NumberToWords.convert(2147483647));
-        System.out.println("*** " + NumberToWords.convert(3000000010L));
+        System.out.println("*** " + NumberToWordsUtil.convert(0));
+        System.out.println("*** " + NumberToWordsUtil.convert(1));
+        System.out.println("*** " + NumberToWordsUtil.convert(16));
+        System.out.println("*** " + NumberToWordsUtil.convert(100));
+        System.out.println("*** " + NumberToWordsUtil.convert(118));
+        System.out.println("*** " + NumberToWordsUtil.convert(200));
+        System.out.println("*** " + NumberToWordsUtil.convert(219));
+        System.out.println("*** " + NumberToWordsUtil.convert(800));
+        System.out.println("*** " + NumberToWordsUtil.convert(801));
+        System.out.println("*** " + NumberToWordsUtil.convert(1316));
+        System.out.println("*** " + NumberToWordsUtil.convert(1000000));
+        System.out.println("*** " + NumberToWordsUtil.convert(2000000));
+        System.out.println("*** " + NumberToWordsUtil.convert(3000200));
+        System.out.println("*** " + NumberToWordsUtil.convert(700000));
+        System.out.println("*** " + NumberToWordsUtil.convert(9000000));
+        System.out.println("*** " + NumberToWordsUtil.convert(9001000));
+        System.out.println("*** " + NumberToWordsUtil.convert(123456789));
+        System.out.println("*** " + NumberToWordsUtil.convert(2147483647));
+        System.out.println("*** " + NumberToWordsUtil.convert(3000000010L));
 
     /* SAMPLE OUTPUT
      *** zero

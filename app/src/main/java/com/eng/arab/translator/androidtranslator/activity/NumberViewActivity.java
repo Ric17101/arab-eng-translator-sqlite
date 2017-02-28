@@ -1,19 +1,3 @@
-/*
- * Copyright (c) 2016 Richard C.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.eng.arab.translator.androidtranslator.activity;
 
 import android.app.Dialog;
@@ -22,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
@@ -92,7 +77,7 @@ public class NumberViewActivity extends AppCompatActivity implements NumberListA
         setupResultsList();
 
         populateCardList();
-        checkTTS();
+        new TTSTask().execute("");
     }
 
     private void populateCardList() {
@@ -361,11 +346,18 @@ public class NumberViewActivity extends AppCompatActivity implements NumberListA
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-//        _speaker.destroy();
+    protected void onStop() {
+        super.onStop();
+        if (_speaker != null)
+            _speaker.stop();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (_speaker != null)
+            _speaker.destroy();
+    }
     /*
     * For Speech to Text Result
     * */
@@ -456,6 +448,7 @@ public class NumberViewActivity extends AppCompatActivity implements NumberListA
         }
     * */
     public void displayDialog(String vid) {
+        vid = "number_" + vid;
         if (getResources().getIdentifier(vid, "raw", getPackageName()) == 0) {
             /* TEST if RAW file doesn't exist then do nothing*/
         } else {
@@ -567,5 +560,26 @@ public class NumberViewActivity extends AppCompatActivity implements NumberListA
         // Get saved position.
         position = savedInstanceState.getInt("CurrentPosition");
         mVideoView.seekTo(position);
+    }
+
+    private class TTSTask extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+            checkTTS();
+            return "Executed";
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+        }
+
+        @Override
+        protected void onPreExecute() {
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+        }
     }
 }

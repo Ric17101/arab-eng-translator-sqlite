@@ -3,6 +3,7 @@ package com.eng.arab.translator.androidtranslator;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.support.design.widget.Snackbar;
@@ -81,7 +82,8 @@ private Toolbar srcToolbar;
 
         Init_ToolBarReturnButton();
         InitMainPanel();
-        tts_init();
+        new TTSTask().execute("");
+
     }
 
     @Override
@@ -294,4 +296,24 @@ private Toolbar srcToolbar;
         toast.show();  //finally display it
     }
 
+    private class TTSTask extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+            tts_init();
+            return "Executed";
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+        }
+
+        @Override
+        protected void onPreExecute() {
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+        }
+    }
 }
